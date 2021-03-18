@@ -52,4 +52,15 @@ Fight with evil monsters and survive!
    -	Winning award (exp, items)
 
 ## How the coding elements are involved?
+I copied below part from the code requirements. "Stage 1 Submission - Proposal" require us to "explain how each coding element 1 to 5 ... support your features."
 
+1. Generation of random game sets or events
+   - Explanation needed
+2. Data structures for storing game status
+   - Explanation needed
+3. Dynamic memory management
+   - Explanation needed
+4. File input/output
+   - Explanation needed
+5. Program codes in multiple files
+   - Explanation needed
