@@ -2,7 +2,7 @@
   Welcome to ENGG1340/COMP2113 project group 181!
 
 ## Members
-- Ho Chun Fai ()
+- Ho Chun Fai (3035789124)
 - Tseung Kai Fai (3035787085)
 
 ## Description
@@ -55,12 +55,14 @@ Fight with evil monsters and survive!
 I copied below part from the code requirements. "Stage 1 Submission - Proposal" require us to "explain how each coding element 1 to 5 ... support your features."
 
 1. Generation of random game sets or events
-   - Explanation needed
+   - using rand() and set the seed to be TIME, 'random' monsters with predefined stats and difficulties will be spawned
+   - critical attacks determined by rand(), checking whether the result falls between a specific zone.
 2. Data structures for storing game status
-   - Explanation needed
+   - A class storing all status of the character
+   - A class storing all obtainable loots and weapons
 3. Dynamic memory management
    - Explanation needed
 4. File input/output
-   - Explanation needed
+   - reading and saving player stats using fopen() and fprintf() and fclose(), saving the file in .dat format.
 5. Program codes in multiple files
    - Explanation needed
