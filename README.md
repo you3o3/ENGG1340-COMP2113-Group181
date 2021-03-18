@@ -13,13 +13,13 @@ Fight with evil monsters and survive!
 
 1. It is a turn-based game, which means in battle, player and monster would take turn to action.
 2. Player can choose to attack, defend, use skills, use potions, or escape. Same as monsters (which would be controlled by computer).
-3. There are two ways of ending a battle, one is escape and another one is the HP of one side falls below (or equal to) 0.
+3. There are two ways of ending a battle, one is escape and another one is the HP of one side falls below (or equal to) 0, i.e. died.
 4. When one side escape or died, the other side is considered the winner of the battle.
 5. If the player wins, he/she would be awarded with exp.
 6. If the player kills the monster, he/she would have the chance to receive item awards.
 7. After reaching the required exp, the player would level up. The status would increase.
 8. Player could equip weapons to boost their status.
-9. The game ends when the HP of the player falls below (or equal to) 0.
+9. The game ends when the HP of the player falls below (or equal to) 0, i.e. died.
 
 
 ## Features
@@ -51,5 +51,5 @@ Fight with evil monsters and survive!
    -	Buffs/ debuffs
    -	Winning award (exp, items)
 
-## How the coding elements is involved?
+## How the coding elements are involved?
 
