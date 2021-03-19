@@ -26,7 +26,8 @@ Fight with evil monsters and survive!
 1. Guide module: how to play?
 2. Save/load module
 3. Background story
-4. Status module
+4. Player creation
+5. Status module
    - Player
      -	Basic information (name, gender)
      -	Normal status (hp, mp, att, def, skills, etc.)
@@ -38,18 +39,19 @@ Fight with evil monsters and survive!
      -	Basic information (name, gender)
      -	Normal status (hp, mp, att, def, skills, etc.)
      -	Extra attributes (physical/magic resist, etc.)
-5. Explore module
+6. Explore module
    -	Require minimum level to unlock different regions
    -	Player can choose which region to enter
    -	Different regions with different monsters having different level and status
    -	Monsters having random level and status, but bounded by limits
    -	Chance to encounter elite monsters
    -	Boss
-6. Battle module
+7. Battle module
    -	Actions to choose (attack, defend, skills, potions, escape)
    -	Randomness (e.g. attack damage varies within certain range)
    -	Buffs/ debuffs
    -	Winning award (exp, items)
+   -	Optional: Support for sound effect (inplementation of SDL2)
 
 ## How the coding elements are involved?
 
@@ -60,8 +62,10 @@ Fight with evil monsters and survive!
    - A class storing all status of the character
    - A class storing all obtainable loots and weapons
 3. Dynamic memory management
-   - using dynamic memory management to manage items
+   - Using dynamic memory management to load regions and monster stats.
+   - avoid high usage of memory
 4. File input/output
    - reading and saving player stats using fopen() and fprintf() and fclose(), saving the file in .dat format
 5. Program codes in multiple files
    - separating codes of different parts and combining them using “Makefile”
+   - custom header files linking all parts
