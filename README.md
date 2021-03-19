@@ -6,12 +6,12 @@
 - Tseung Kai Fai (3035787085)
 
 ## Description
-We want to implement a turn-based role-playing game (RPG). 
+We want to implement a turn-based role-playing game (RPG). A RPG is a game that users play the roles of the characters. The game we plan to create will be an adventure type game, i.e. the main character will explore different areas and fight with monsters.
 
 ## Game rules
 Fight with evil monsters and survive!
 
-1. It is a turn-based game, which means in battle, player and monster would take turn to action.
+1. It is a turn-based game, which means in a battle, player and monster would take turn to action.
 2. Player can choose to attack, defend, use skills, use potions, or escape. Same as monsters (which would be controlled by computer).
 3. There are two ways of ending a battle, one is escape and another one is the HP of one side falls below (or equal to) 0, i.e. died.
 4. When one side escape or died, the other side is considered the winner of the battle.
