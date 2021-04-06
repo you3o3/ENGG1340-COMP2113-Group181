@@ -53,7 +53,7 @@ Fight with evil monsters and survive!
    -	Winning award (exp, items)
    -	Optional: Support for sound effect (inplementation of SDL2)
 
-## How the coding elements are involved?
+## How do the coding elements get involved?
 
 1. Generation of random game sets or events
    - using rand() and set the seed to be TIME, 'random' monsters with predefined stats and difficulties will be spawned
