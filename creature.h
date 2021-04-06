@@ -17,7 +17,7 @@ struct generalStats{
 struct character : public generalStats {
   bool gender;
   int exp, expReq;
-	std::string role;
+  std::string role;
   std::vector<Weapon> weapons;           // weapon struct in weapon.h and weapon.cpp
   int skills[100];
   std::string position;
