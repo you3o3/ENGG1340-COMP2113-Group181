@@ -11,8 +11,8 @@ creature.o: creature.cpp creature.h
 weapon.o: weapon.cpp weapon.h
 	g++ $(FLAGS) -c $<
 
-template.o: template.cpp
+main.o: main.cpp
 	g++ $(FLAGS) -c $<
 
-template: color.o creature.o weapon.o template.o
+main: color.o creature.o weapon.o main.o
 	g++ $(FLAGS) $^ -o $@
