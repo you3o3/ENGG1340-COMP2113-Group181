@@ -19,23 +19,23 @@ character::character(string nameInputed, bool genderInputed){
   mp = maxmp;
   att =0;                               //tbc
   def =0;                               //tbc
-  exp = 0;
-  expReq =0;                            //tbc
+  xp = 0;
+  xpReq =0;                            //tbc
   // role, skill, position tbc
 }
 
 void character::lvUp(){
-  exp -= expReq;
+  xp -= xpReq;
   level += 1;
-  expReq +=0;                           //tbc
+  xpReq +=0;                           //tbc
   // stats increase tbc
   // hp/mp full recover tbc
   // print message tbc
 }
 
 void character::expUp(int expGain){
-  exp += expGain;
-  while (exp >= expReq){
+  xp += xpGain;
+  while (xp >= xpReq){
     lvUp();
   }
 }
