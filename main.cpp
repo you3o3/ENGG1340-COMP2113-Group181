@@ -50,6 +50,27 @@ void delay(int milliseconds) {
 	while(clock() < start_time + milliseconds);
 }
 
+//outputting different sections of the story based on the integer given to the fuction.
+void Introduction(int section){
+	system("CLS");
+	if(section == 1){
+		string Story = "Many places are surrounded by a transparent wall that prevent people who are not good enough from entering, *and block monsters who are too strong from harming people. *Legend says that The Wall is a magic casted by the Almighty Mage Kinn at the end of his life, *but no one knows how long would it lasts for. *The Wall prevents people from entering the dangerous area and block monsters, *but still, there are places that are not being protected. *Adventurers, the best of all, protect weak traders travelling around the globe and fight monsters to obtain loot. *Over the years, many become brave warriors, enduring hardships and dangers. *Some become loyal knights, guarding the weak and the poor. *Some become wise sorcerers, mastering magics and knowledge. *And now... in the City of Quart, a novice adventurer is creating history";
+		for(int i = 0; i < Story.length(); i++){
+			if(Story[i] != '*'){
+				cout << Story[i];
+			} else {
+				cout << endl;
+			}
+			delay(40);
+		}
+		for(int i = 0; i < 3; i++){
+			cout << '.';
+			delay(400);
+		}
+		cout << endl;
+	}
+}
+
 void initialization(){
 	
 }
@@ -116,11 +137,13 @@ void Menu(){
 			loadSave();
 		} else {
 			cout << "New game initializing... Initializing character creation sequence." << endl;
+			Introduction(1);
 		}
 		
 	} else {
 		cout << "New game initializing... Starting character creation sequence." << endl;
 		characterCreation();
+		Introduction(1);
 	}
 	
 	
