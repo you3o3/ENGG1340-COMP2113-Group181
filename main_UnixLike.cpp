@@ -15,23 +15,23 @@ using namespace std;
 
 //if file exist then return true, otherwise return false
 inline bool save_exist (const string& save) {
-  if (FILE *file = fopen(save.c_str(), "r")) {
-    fclose(file);
-    return true;
-  } else {
-    return false;
-  }
+	if (FILE *file = fopen(save.c_str(), "r")) {
+		fclose(file);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 //move cursor to specific position
 void gotoxy(int XPos, int YPos){
-  //using ANSI escape code
-  printf("\033[%d;%dH",YPos+1,XPos+1);
+	//using ANSI escape code
+	printf("\033[%d;%dH",YPos+1,XPos+1);
 }
 
 //delay running codes
 void delay(int millisecond) {
-  this_thread::sleep_for(chrono::milliseconds(millisecond));
+	this_thread::sleep_for(chrono::milliseconds(millisecond));
 }
 
 
@@ -60,7 +60,7 @@ void Menu(){
 	//if not, create character using characterCreation()
 
 	//Print UI Here
-  Color color;
+	Color color;
 	int i;
 	color.set("yellow");
 	printf("================================================================================\n");
@@ -75,16 +75,16 @@ void Menu(){
 	printf("================================================================================\n");
 	color.set("yellow");
 	for(i = 1; i <= 100; i++){
-    gotoxy(i/3,3);
-    if(i%3==0) printf(">>>\n");
+		gotoxy(i/3,3);
+		if(i%3==0) printf(">>>\n");
 		gotoxy(23,4);
 		printf("%d%%", i);
 		delay(10);
 	}
 	color.set("green");
 	delay(500);
-  //removed the flash effect which is avaliable in windows version
-  //because system("Color __") is Windows-specific
+	//removed the flash effect which is avaliable in windows version
+	//because system("Color __") is Windows-specific
 	gotoxy(0,6);
 
 	if(save_exist("save.sav")){
