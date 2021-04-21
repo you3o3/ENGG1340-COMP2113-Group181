@@ -33,7 +33,7 @@ void character::lvUp(){
   // print message tbc
 }
 
-void character::expUp(int expGain){
+void character::expUp(int xpGain){
   xp += xpGain;
   while (xp >= xpReq){
     lvUp();
