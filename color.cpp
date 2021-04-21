@@ -36,7 +36,7 @@ string Color::generalcolor(string c){
 // Below are public functions
 // See color.h for descriptions
 
-void Color::set(string c, string special = "normal"){
+void Color::set(string c, string special){
   string to_return = "";
 
   if (special == "normal")
@@ -55,7 +55,7 @@ void Color::reset(){
   std::cout << rset;
 }
 
-string Color::setphrase(string s, string c = "normal", string brightness = "normal", string backcolor = "normal"){
+string Color::setphrase(string s, string c, string brightness, string backcolor){
   if (c != "normal")
     set(c, brightness);
   if (backcolor != "normal")

@@ -75,13 +75,13 @@ public:
 
   // input: color, attribute
   // output: ANSI escape codes of that color and brightness
-  void set(std::string, std::string);
+  void set(std::string c, std::string special = "normal");
 
   // reset all changes made
   void reset();
 
   // return a string that color/background is/are changed, after that reset all
-  std::string setphrase(std::string, std::string, std::string, std::string);
+  std::string setphrase(std::string s, std::string c = "normal", std::string brightness = "normal", std::string backcolor = "normal");
 
 
 private:
@@ -92,7 +92,7 @@ private:
   std::string bright  = "\033[9";
   std::string bground = "\033[4";
 
-  std::string generalcolor(std::string);
+  std::string generalcolor(std::string c);
 
 };
 
