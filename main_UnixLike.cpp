@@ -22,6 +22,8 @@
 
 using namespace std;
 
+Color color;
+
 //if file exist then return true, otherwise return false
 inline bool save_exist (const string& save) {
   if (FILE *file = fopen(save.c_str(), "r")) {
