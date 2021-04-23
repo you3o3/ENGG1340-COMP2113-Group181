@@ -14,5 +14,11 @@ weapon.o: weapon.cpp weapon.h
 main.o: main.cpp
 	g++ $(FLAGS) -c $<
 
+main_UnixLike.o: main_UnixLike.cpp
+	g++ $(FLAGS) -c $<
+
 main: color.o creature.o weapon.o main.o
+	g++ $(FLAGS) $^ -o $@
+
+main_UnixLike: color.o creature.o weapon.o main_UnixLike.o
 	g++ $(FLAGS) $^ -o $@
