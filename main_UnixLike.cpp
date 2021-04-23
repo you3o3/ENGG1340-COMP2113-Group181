@@ -55,12 +55,12 @@ void characterCreation(){
   strcpy(selections[1],"No");
 	switch(select(selections,0,2,4)){
 		case 0:{
-			//character(name, true);
+			character(name, true);
 			printDelay("A boy will grow up and become a man... given enough challenges...", 60, true);
 			break;
 		}
 		case 1:{
-			//character(name, false);
+			character(name, false);
 			printDelay("A girl will grow up and become a heroine... given enough challenges...", 60, true);
 			break;
 		}
