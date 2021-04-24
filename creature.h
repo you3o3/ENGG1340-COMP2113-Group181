@@ -21,7 +21,7 @@ struct character : public generalStats {
   std::vector<Weapon> weapons;           // weapon struct in weapon.h and weapon.cpp
   int skills[100];
   std::string position;
-  character(std::string, bool);
+  character(std::string nameInputed = "", bool genderInputed = true);
   void lvUp();
   void expUp(int);
 
