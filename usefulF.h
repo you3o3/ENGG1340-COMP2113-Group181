@@ -21,7 +21,7 @@ int getarrow();
 
 // print a menu like selection which will be controlled using getarrow() and enter key.
 // input: options provided, initial choice, total num of items, starting line to print
-int select(char choice[][20],int previouschosen, int totalitems, int lines);
+int select(char choice[][40],int previouschosen, int totalitems, int lines);
 
 // printing strings with delay, to mimic speaking speak (user defined speed in miliseconds)
 void printDelay(std::string a, int t, bool end);
