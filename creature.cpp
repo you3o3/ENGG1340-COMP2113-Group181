@@ -47,6 +47,8 @@ monster monsterCreation(int regionGrade){
   return newMob;
 }
 
+character player;
+
 /* check
 
 int main(){
