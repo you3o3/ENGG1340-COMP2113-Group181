@@ -62,3 +62,5 @@ string Color::setphrase(string s, string c, string brightness, string backcolor)
     set(backcolor, "background");
   return s + rset;
 }
+
+Color color;
