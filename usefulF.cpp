@@ -126,7 +126,7 @@ int getarrow() {
 }
 
 
-int select(char choice[][20],int previouschosen, int totalitems, int lines) {
+int select(char choice[][40],int previouschosen, int totalitems, int lines) {
     int a,i=0;
     int chosen=previouschosen;
     color.set("yellow");
