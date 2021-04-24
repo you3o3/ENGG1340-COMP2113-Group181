@@ -14,13 +14,58 @@
 
 using namespace std;
 
-Color color_usefulF;
-
 // with credits to https://stackoverflow.com/questions/4062045/clearing-terminal-in-linux-with-c-code
 void clrscr(){
   //using ANSI escape code
   cout << "\033[2J\033[1;1H";
   fflush(stdout);
+}
+
+
+// with credits to https://stackoverflow.com/questions/50884685/how-to-get-cursor-position-in-c-using-ansi-code
+int getxy(int *y, int *x) {
+
+	char buf[30]={0};
+	int ret, i, pow;
+	char ch;
+
+	*y = 0; *x = 0;
+
+	struct termios term, restore;
+
+	tcgetattr(0, &term);
+	tcgetattr(0, &restore);
+	term.c_lflag &= ~(ICANON|ECHO);
+	tcsetattr(0, TCSANOW, &term);
+
+	write(1, "\033[6n", 4);
+
+	for( i = 0, ch = 0; ch != 'R'; i++ )
+	{
+	  ret = read(0, &ch, 1);
+	  if ( !ret ) {
+	     tcsetattr(0, TCSANOW, &restore);
+	     fprintf(stderr, "getpos: error reading response!\n");
+	     return 1;
+	  }
+	  buf[i] = ch;
+	  //printf("buf[%d]: \t%c \t%d\n", i, ch, ch);
+	}
+
+	if (i < 2) {
+	  tcsetattr(0, TCSANOW, &restore);
+	  printf("i < 2\n");
+	  return(1);
+	}
+
+	for( i -= 2, pow = 1; buf[i] != ';'; i--, pow *= 10)
+	   *x = *x + ( buf[i] - '0' ) * pow;
+
+	for( i-- , pow = 1; buf[i] != '['; i--, pow *= 10)
+	   *y = *y + ( buf[i] - '0' ) * pow;
+
+	tcsetattr(0, TCSANOW, &restore);
+	return 0;
 }
 
 // with credits to https://thoughtsordiscoveries.wordpress.com/2017/04/26/set-and-read-cursor-position-in-terminal-windows-and-linux/
@@ -80,17 +125,17 @@ int getarrow() {
 
 }
 
-// with credit to https://stackoverflow.com/questions/8767166/passing-a-2d-array-to-a-c-function
+
 int select(char choice[][20],int previouschosen, int totalitems, int lines) {
     int a,i=0;
     int chosen=previouschosen;
-    color_usefulF.set("yellow");
+    color.set("yellow");
     while(i < totalitems){
     	gotoxy(3,lines+i);
    	 	printf("%s\n",choice[i]);
     	i++;
     }
-    color_usefulF.set("red");
+    color.set("red");
 
     gotoxy(0,lines);
 
@@ -123,7 +168,7 @@ int select(char choice[][20],int previouschosen, int totalitems, int lines) {
           			}
             }
         }
-        color_usefulF.set("green");
+        color.set("green");
         gotoxy(0,lines+totalitems);
 
         return chosen;
@@ -144,4 +189,22 @@ void printDelay(string a, int t, bool end){
 	if(end == true){
 		cout << endl;
 	}
+}
+
+void printBar(string to_print){
+  string final = "";
+  int num_of_space = (80 - to_print.length()) / 2;
+  for (int i = 0; i < num_of_space * 2; i++){
+    final += " ";
+    if (final.length() == num_of_space){
+      final += to_print;
+    }
+  }
+  color.set("yellow");
+	printf("================================================================================\n");
+	color.set("blue");
+	printf("%s\n", final.c_str());
+	color.set("yellow");
+  printf("================================================================================\n");
+	color.set("green");
 }
