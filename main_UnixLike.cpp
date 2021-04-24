@@ -40,7 +40,7 @@ void initialization(){
 
 
 //basic character creation
-void characterCreation(){
+character characterCreation(){
 	string name;
 	FILE *save = fopen("save.sav","rw");
   printBar("???");
@@ -60,16 +60,17 @@ void characterCreation(){
 			character player(name, true);
 			printDelay("A boy will grow up and become a man... given enough challenges...", 60, true);
       delay(400);
-			break;
+			return player;
 		}
 		case 1:{
 			character player(name, false);
 			printDelay("A girl will grow up and become a heroine... given enough challenges...", 60, true);
       delay(400);
-			break;
+			return player;
 		}
 	}
-
+  character none;
+  return none;
 
 }
 
@@ -89,8 +90,10 @@ void Introduction(int section){
 }
 
 //load file from user and recover state based on the info in file
-void loadSave(){
-
+character loadSave(){
+	character player;
+	//TODO: load file and save status into player, note that player can't save other status like monsters, and save file during battle is prohibited
+	return player;
 }
 
 //save file into user's computer
@@ -102,7 +105,7 @@ void saveFile(char fileName[]){
 void Menu(){
 	//TODO: if save file exists ask if player want to load the files
 	//if not, create character using characterCreation()
-
+	character player;
 	//Print UI Here
   clrscr();
 	int i;
@@ -137,12 +140,12 @@ void Menu(){
 		a = getchar();
 		if(a=='Y'){
 			//load file
-			loadSave();
+			player = loadSave();
 		} else {
       cout << "New game initializing... Initializing character creation sequence." << endl;
       delay(1000);
       clrscr();
-      characterCreation();
+      player = characterCreation();
       Introduction(1);
 		}
 
@@ -150,7 +153,7 @@ void Menu(){
 		cout << "New game initializing... Starting character creation sequence." << endl;
     delay(1000);
     clrscr();
-    characterCreation();
+    player = characterCreation();
     Introduction(1);
 	}
 
