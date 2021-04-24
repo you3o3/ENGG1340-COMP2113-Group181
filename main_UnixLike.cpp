@@ -44,9 +44,7 @@ character characterCreation(){
 	cin >> name;
 	cout << name;
 	printDelay("... a good name, indeed... So, you are a boy?", 40, true);
-	char selections[2][20];
-  strcpy(selections[0],"Yes");
-  strcpy(selections[1],"No");
+	char selections[2][40] = {"Yes", "No"};
   int x = 0, y = 0;
 	getxy(&y, &x);
 	switch(select(selections,0,2,y-1)){
@@ -55,14 +53,12 @@ character characterCreation(){
 			printDelay("A boy will grow up and become a man... given enough challenges...", 60, true);
       delay(400);
       return p;
-      //break;
 		}
 		case 1:{
 			character p(name, false);
 			printDelay("A girl will grow up and become a heroine... given enough challenges...", 60, true);
       delay(400);
       return p;
-			//break;
 		}
 	}
   character none;
@@ -108,9 +104,7 @@ void Guide(){
   /*
   clrscr();
   printDelay("Do you want to have a guide?", 40, true);
-  char selections[2][20];
-  strcpy(selections[0],"Yes");
-  strcpy(selections[1],"No");
+  char selections[2][40] = {"Yes", "No"};
   int x = 0, y = 0;
   getxy(&y, &x);
   switch(select(selections,0,2,y-1)){
@@ -127,28 +121,52 @@ void Guide(){
 }
 
 //------------------------------------------------------------------------------------------------------
+// the following should be made inside a file called battle.cpp and battle.h
+/* not implemented
+void Battle(){
+
+}
+*/
+
+//------------------------------------------------------------------------------------------------------
 // the following should be made inside a file called region.cpp and region.h
 
 void Adventure_option(){
   clrscr();
-  printDelay(player.name + ", where do you want to go?", 40, true);
-  printDelay("You can go to the following places: ", 40, true);
-  char selections[2][20];
-  //testing
-  strcpy(selections[0],"A");
-  strcpy(selections[1],"B");
-  int x = 0, y = 0;
+
+  printDelay("The Wall blocks ignorant adventurers from entering dangerous places.", 40, true);
+  printDelay("So, " + player.name + ", where do you want to go?", 40, true);
+  color.set("yellow");
+  printf("================================================================================\n");
+  color.set("green");
+  printDelay("List of places: ", 40, true);
+  char selections[7][40] = {
+    "Adventurers' valley (lv1+)",
+    "Slient forest (lv11+)",
+    "Cemetery of the dark (lv21+)",
+    "Forsaken castle (lv31+)",
+    "Other side of the world (lv41+)",
+    "Nest of dragons (lv51+)",
+    "Abyss (requirement?\?\?)"
+  };
+
+  int x = 0, y = 0, lvlimit = (player.level - 1) / 10;
   getxy(&y, &x);
-  switch(select(selections,0,2,y-1)){
-    case 0:{
-      player.position = "A";
-      break;
-    }
-    case 1:{
-      player.position = "B";
-      break;
-    }
+  int pos = select(selections,0,7,y-1);
+  while (lvlimit < pos){
+    color.set("red");
+    printDelay("The Wall blocked your way...", 40, true);
+    printDelay("Please choose a place that is suitable for your current level.", 40, true);
+    delay(1000);
+    clrscr();
+    color.set("yellow");
+    printf("================================================================================\n");
+    color.set("green");
+    printDelay("List of places: ", 40, true);
+    getxy(&y, &x);
+    pos = select(selections,0,7,y-1);
   }
+  player.position = selections[pos];
   printDelay("You're walking to the " + player.position + ".", 40, true);
   delay(1000);
 }
@@ -158,14 +176,14 @@ int OptionsInRegion(){
   printBar(player.position);
   printDelay("You are inside the " + player.position + ".", 40, true);
   printDelay(player.name + ", What do you want to do?", 40, true);
-  char selections[6][20];
-
-  strcpy(selections[0],"Move on");
-  strcpy(selections[1],"Take a rest (heal)");
-  strcpy(selections[2],"Return to city");
-  strcpy(selections[3],"Check my status");
-  strcpy(selections[4],"Save game");
-  strcpy(selections[5],"Exit game");
+  char selections[6][40] = {
+    "Move on",
+    "Take a rest (heal)",
+    "Return to city",
+    "Check my status",
+    "Save game",
+    "Exit game"
+  };
   int x = 0, y = 0, to_return = 0;
   getxy(&y, &x);
   to_return = select(selections,0,6,y-1);
@@ -184,13 +202,13 @@ int OptionsInCity(){
   printBar("City of Quart");
   printDelay("You are inside the " + player.position + ".", 40, true);
   printDelay(player.name + ", What do you want to do?", 40, true);
-  char selections[5][20];
-
-  strcpy(selections[0],"Take an adventure");
-  strcpy(selections[1],"Take a rest (heal)");
-  strcpy(selections[2],"Check my status");
-  strcpy(selections[3],"Save game");
-  strcpy(selections[4],"Exit game");
+  char selections[5][40] = {
+    "Take an adventure",
+    "Take a rest (heal)",
+    "Check my status",
+    "Save game",
+    "Exit game"
+  };
   int x = 0, y = 0, to_return = 0;
   getxy(&y, &x);
   to_return = select(selections,0,5,y-1);
@@ -241,6 +259,7 @@ void Region(){
       //3: Move on (during an adventure)
       case 3:{
         //Battle();
+        //After_battle();
         break;
       }
 
