@@ -35,6 +35,6 @@ struct monster : public generalStats {
 // usage: monster x = monsterCreation(regionGrade);
 monster monsterCreation(int);
 
-
+extern character player;
 
 #endif
