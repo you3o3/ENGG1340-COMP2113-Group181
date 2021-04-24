@@ -57,7 +57,6 @@ Functions:
 
 
 Example: (all output are "text")
-  Color color;
   color.set("magenta", "bright");
   color.set("black", "background");
   cout << "text" << endl;                                               // frontground: bright magenta, background: black
@@ -95,6 +94,9 @@ private:
   std::string generalcolor(std::string c);
 
 };
+
+// with credit to https://stackoverflow.com/questions/10422034/when-to-use-extern-in-c
+extern Color color;
 
 // with credits to:
 // https://stackoverflow.com/questions/9158150/colored-output-in-c
