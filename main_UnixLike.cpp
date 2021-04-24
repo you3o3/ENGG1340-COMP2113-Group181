@@ -1,12 +1,12 @@
 // this program is for Unix-like systems
 // for Windows system, please refer to "main.cpp"
 
-
 // with credits to https://stackoverflow.com/questions/1670891/how-can-i-print-a-string-to-the-console-at-specific-coordinates-in-c
 // Normally stdout is "buffered" which means the C runtime library queues up what you print and only sends it to the console when
 // (a) you output a newline, (b) the queue fills up, or (c) you manually flush the file.
 
-// for ANSI escape codes, adding fflush(stdout) before or/and after (manual flush) would prevent problems
+// for ANSI escape codes, adding fflush(stdout) before or/and after (manually flush) would prevent problems
+
 
 
 #include <iostream>
@@ -22,7 +22,6 @@
 
 using namespace std;
 
-
 //if file exist then return true, otherwise return false
 inline bool save_exist (const string& save) {
   if (FILE *file = fopen(save.c_str(), "r")) {
@@ -31,11 +30,6 @@ inline bool save_exist (const string& save) {
   } else {
     return false;
   }
-}
-
-
-void initialization(){
-
 }
 
 
@@ -57,16 +51,18 @@ character characterCreation(){
 	getxy(&y, &x);
 	switch(select(selections,0,2,y-1)){
 		case 0:{
-			character player(name, true);
+			character p(name, true);
 			printDelay("A boy will grow up and become a man... given enough challenges...", 60, true);
       delay(400);
-			return player;
+      return p;
+      //break;
 		}
 		case 1:{
-			character player(name, false);
+			character p(name, false);
 			printDelay("A girl will grow up and become a heroine... given enough challenges...", 60, true);
       delay(400);
-			return player;
+      return p;
+			//break;
 		}
 	}
   character none;
@@ -76,9 +72,9 @@ character characterCreation(){
 
 //printing specific plots based on the section
 void Introduction(int section){
-	clrscr();
 	if(section == 1){
-		printBar("INTRODUCTION");
+    clrscr();
+    printBar("INTRODUCTION");
 		string Story = "Many places are surrounded by a transparent wall that prevent people who are not good enough from entering, *and block monsters who are too strong from harming people. *Legend says that The Wall is a magic casted by the Almighty Mage Kinn at the end of his life, *but no one knows how long would it lasts for. *The Wall prevents people from entering the dangerous area and block monsters, *but still, there are places that are not being protected. *Adventurers, the best of all, protect weak traders travelling around the globe and fight monsters to obtain loot. *Over the years, many become brave warriors, enduring hardships and dangers. *Some become loyal knights, guarding the weak and the poor. *Some become wise sorcerers, mastering magics and knowledge. *And now... in the City of Quart, a novice adventurer is creating history";
 		printDelay(Story,40,false);
 		for(int i = 0; i < 3; i++){
@@ -89,11 +85,17 @@ void Introduction(int section){
 	}
 }
 
+
+void initialization(){
+
+}
+
+
 //load file from user and recover state based on the info in file
 character loadSave(){
-	character player;
+  character p;
 	//TODO: load file and save status into player, note that player can't save other status like monsters, and save file during battle is prohibited
-	return player;
+	return p;
 }
 
 //save file into user's computer
@@ -101,11 +103,184 @@ void saveFile(char fileName[]){
 
 }
 
+//guide request and provide guide if user want
+void Guide(){
+  /*
+  clrscr();
+  printDelay("Do you want to have a guide?", 40, true);
+  char selections[2][20];
+  strcpy(selections[0],"Yes");
+  strcpy(selections[1],"No");
+  int x = 0, y = 0;
+  getxy(&y, &x);
+  switch(select(selections,0,2,y-1)){
+    case 0:{
+      //TODO: add guide***
+      return;
+    }
+    case 1:{
+      printDelay("Starting game...", 40, true);
+      return;
+    }
+  }
+  */
+}
+
+//------------------------------------------------------------------------------------------------------
+// the following should be made inside a file called region.cpp and region.h
+
+void Adventure_option(){
+  clrscr();
+  printDelay(player.name + ", where do you want to go?", 40, true);
+  printDelay("You can go to the following places: ", 40, true);
+  char selections[2][20];
+  //testing
+  strcpy(selections[0],"A");
+  strcpy(selections[1],"B");
+  int x = 0, y = 0;
+  getxy(&y, &x);
+  switch(select(selections,0,2,y-1)){
+    case 0:{
+      player.position = "A";
+      break;
+    }
+    case 1:{
+      player.position = "B";
+      break;
+    }
+  }
+  printDelay("You're walking to the " + player.position + ".", 40, true);
+  delay(1000);
+}
+
+int OptionsInRegion(){
+  clrscr();
+  printBar(player.position);
+  printDelay("You are inside the " + player.position + ".", 40, true);
+  printDelay(player.name + ", What do you want to do?", 40, true);
+  char selections[6][20];
+
+  strcpy(selections[0],"Move on");
+  strcpy(selections[1],"Take a rest (heal)");
+  strcpy(selections[2],"Return to city");
+  strcpy(selections[3],"Check my status");
+  strcpy(selections[4],"Save game");
+  strcpy(selections[5],"Exit game");
+  int x = 0, y = 0, to_return = 0;
+  getxy(&y, &x);
+  to_return = select(selections,0,6,y-1);
+  // converting to_return to options in Region()
+  if (to_return == 0){
+    return 3;
+  }
+  if (to_return == 1){
+    return 2;
+  }
+  return to_return + 2;
+}
+
+int OptionsInCity(){
+  clrscr();
+  printBar("City of Quart");
+  printDelay("You are inside the " + player.position + ".", 40, true);
+  printDelay(player.name + ", What do you want to do?", 40, true);
+  char selections[5][20];
+
+  strcpy(selections[0],"Take an adventure");
+  strcpy(selections[1],"Take a rest (heal)");
+  strcpy(selections[2],"Check my status");
+  strcpy(selections[3],"Save game");
+  strcpy(selections[4],"Exit game");
+  int x = 0, y = 0, to_return = 0;
+  getxy(&y, &x);
+  to_return = select(selections,0,5,y-1);
+  // converting to_return to options in Region()
+  if (to_return <= 1){
+    return to_return + 1;
+  } else {
+    return to_return + 3;
+  }
+}
+
+void Region(){
+  /*note: what options represent
+  0: NULL
+  1: Take an adventure (in city)
+  2: Take a rest (heal)
+  3: Move on (during an adventure)
+  4: Return to city (during an adventure)
+  5: Check my status
+  6: Save game
+  7: Exit game
+
+  can add any new options
+
+  */
+  int options = 0;
+  while (options != 7){
+    if (player.position == "City of Quart"){
+      options = OptionsInCity();
+    } else {
+      options = OptionsInRegion();
+    }
+
+    switch(options){
+      //1: Take an adventure (in city)
+      case 1:{
+        Adventure_option();
+        break;
+      }
+
+      //2: Take a rest (heal)
+      case 2:{
+        printDelay("Recovering hp and mp...", 60, true);
+        //recover hp mp (how much?), if in city then just heal, if in other places have chance to encounter monster
+        break;
+      }
+
+      //3: Move on (during an adventure)
+      case 3:{
+        //Battle();
+        break;
+      }
+
+      //4: Return to city (during an adventure)
+      case 4:{
+        player.position = "City of Quart";
+        printDelay("Returning to City of Quart...", 60, true);
+        delay(1000);
+        break;
+      }
+
+      //5: Check my status
+      case 5:{
+        //print current status
+        break;
+      }
+
+      //6: Save game
+      case 6:{
+        //saveFile(?)
+        break;
+      }
+
+      //7: Exit game
+      case 7:{
+        printDelay("Thank you for playing this game!", 40, true);
+        break;
+      }
+
+    }
+  }
+}
+//------------------------------------------------------------------------------------------------------
+
+
 //menu of the game
 void Menu(){
 	//TODO: if save file exists ask if player want to load the files
 	//if not, create character using characterCreation()
-	character player;
+
 	//Print UI Here
   clrscr();
 	int i;
@@ -156,6 +331,9 @@ void Menu(){
     player = characterCreation();
     Introduction(1);
 	}
+  Guide();
+  Region();
+
 
 
 }
