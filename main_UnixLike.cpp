@@ -160,7 +160,7 @@ void Battle(int zone){
 	while(player.isAlive() && mob->isAlive()){
 		clrscr();
 		printBar("Battle");
-		monster.name << "   " << mob->hp << "/" << mob->maxhp << endl;
+		cout << monster->name << "   " << mob->hp << "/" << mob->maxhp << endl;
 		color.set("blue");
 		cout << player.name << "   " << player.hp << "/" << player.maxhp << endl;
 		color.set("green");
@@ -172,53 +172,86 @@ void Battle(int zone){
 		switch(select(selections,0,3,y-1)){
 			case 0:{
 				printDelay("You attacked as hard as you can.", 40 , true);
-				roundDamage = player.att;
-				if(randomNumbers(0,100) <= player.crit_chance){
-					color.set("red");
-					printDelay("Critical Hit!", 40, true);
-					roundDamage *= 1.5;
-					color.set("green");
-				}
-				if(randomNumbers(0,1) == 0){
-					roundDamage -= randomNumbers(1,player.att*0.2);
+				if(randomNumber(0,100) > 10){
+					roundDamage = player.att;
+					if(randomNumber(0,100) <= player.crit_chance){
+						color.set("red");
+						printDelay("Critical Hit!", 40, true);
+						roundDamage *= 1.5;
+						color.set("green");
+					}
+					if(randomNumber(0,1) == 0){
+						roundDamage -= randomNumber(1,player.att*0.2);
+					} else {
+						roundDamage += randomNumber(1,player.att*0.2);
+					}
+					printDelay("You dealt " + roundDamage + "to the monster.");
+					mob->hp -= roundDamage;
 				} else {
-					roundDamage += randomNumbers(1,player.att*0.2);
+					printDelay("The monster dodged your attack!", 40, true);
 				}
-				printDelay("You dealt" + roundDamage + "to the monster.");
-				mob->hp -= roundDamage;
+				break;
 			}
 			case 1:{
-				
-				printDelay("You could not defend yourself!", 40, true);
+				if(player.maxhp/5 < player.mp){
+					printDelay("You used your mana to recover yourself!", 40 ,true);
+					player.hp += player.maxhp/5;
+					player.mp -= player.maxhp/5;	
+				} else {
+					printDelay("You could not heal yourself as you do not have enough mana!", 40, true);
+				}
+				break;
 			}
 			case 2:{
-				break();
+				if(randomNumber(1,100) <= 25) {
+					//fail
+					printDelay("You failed to escape!", 40, ture);
+				} else {
+					printDelay("You escaped from the monster!", 40 ,true);
+					delete mob;
+					return();
+				}
+				break;
 			}
 		}
 		roundDamage = 0;
-		switch(randomNumbers(0,1)){
-			case 0:{
-				printDelay("The monster attacked you!", 40 , true);
-				roundDamage = mob->att;
-				if(randomNumbers(0,100) <= mob->crit_chance){
+		if(mob->hp > 0){
+			switch(randomNumber(0,1)){
+				case 0:{
+					printDelay("The monster attacked you!", 40 , true);
+					roundDamage = mob->att;
+					if(randomNumbers(0,100) <= mob->crit_chance){
+						color.set("red");
+						printDelay("Critical Hit!", 40, true);
+						roundDamage *= 1.5;
+						color.set("green");
+					}
+					if(randomNumbers(0,1) == 0){
+						roundDamage -= randomNumbers(1,mob->att*0.2);
+					} else {
+						roundDamage += randomNumbers(1,mob->att*0.2);
+					}
+					printDelay("The monster inflicted " + roundDamage + "to you!", 40 ,true);
+					player.hp -= roundDamage;
+					break;
+				}
+				case 1:{
 					color.set("red");
-					printDelay("Critical Hit!", 40, true);
-					roundDamage *= 1.5;
-					color.set("green");
+					printDelay("The monster gets angry and increased its next attack!", 40 ,true);
+					mob->att += mob->att * 0.15;
+					break;
 				}
-				if(randomNumbers(0,1) == 0){
-					roundDamage -= randomNumbers(1,mob->att*0.2);
-				} else {
-					roundDamage += randomNumbers(1,mob->att*0.2);
-				}
-				printDelay("The monster inflicted" + roundDamage + "to you!", 40 ,true);
-				player.hp -= roundDamage;
 			}
-			case 1:{
-				
-				break;
-			}
-		}	
+		}
+	}
+	if(player.mp < player.maxmp){
+		printDelay("You recovered some mp." 40 ,end);
+		player.mp += (player.maxmp * 0.1);
+		if(player.mp > player.maxmp) player.mp = player.maxmp;
+	}
+	if(player.hp > 0 && mob->hp <= 0){
+		printDelay("You have slained the monster! You gained " + to_string(mob->expDrop) + "xp", 40, true);
+		player.expUp(mob->expDrop);
 	}
 	delete mob;
 }
