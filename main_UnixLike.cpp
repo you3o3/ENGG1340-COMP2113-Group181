@@ -417,15 +417,15 @@ void Region(){
           delay(1000);
         } else {
           //if in other places have chance to encounter monster
-          if (player.hp * 1.2 > player.maxhp){
+          if (player.hp + player.maxhp * 0.4 > player.maxhp){
             player.hp = player.maxhp;
           } else {
-            player.hp = (int)(1.2 * player.hp);
+            player.hp += (int)(0.4 * player.maxhp);
           }
-          if (player.mp * 1.2 > player.maxmp){
+          if (player.mp + player.maxmp * 0.4  > player.maxmp){
             player.mp = player.maxmp;
           } else {
-            player.mp = (int)(1.2 * player.mp);
+            player.mp += (int)(0.4 * player.maxmp);
           }
           printDelay("Your hp and mp partially recovered!", 40, true);
           delay(1000);
