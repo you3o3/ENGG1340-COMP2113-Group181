@@ -86,7 +86,6 @@ void Introduction(int section){
 void initialization(){
 
 }
-
 //load file from user and recover state based on the info in file
 character loadSave(){
   character p;
@@ -99,6 +98,8 @@ character loadSave(){
   }
   getline(fin, p.name);
   fin >> p.level;
+  fin >> p.xp;
+  fin >> p.xpReq;
   fin >> p.hp;
   fin >> p.maxhp;
   fin >> p.mp;
@@ -121,6 +122,8 @@ void saveFile(){
   }
   fout << player.name << endl;
   fout << player.level << " ";
+  fout << player.xp << " ";
+  fout << player.xpReq << " ";
   fout << player.hp << " ";
   fout << player.maxhp << " ";
   fout << player.mp << " ";
