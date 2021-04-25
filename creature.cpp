@@ -1,9 +1,12 @@
 #include "creature.h"
+#include "usefulF.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <string>
+#include <cmath>
 
-using std::string;
+using namespace std;
 
 bool generalStats::isAlive(){
   return hp > 0;
