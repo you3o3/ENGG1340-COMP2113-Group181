@@ -36,5 +36,7 @@ struct monster : public generalStats {
 monster monsterCreation(int);
 
 extern character player;
+extern char regionMonsters[6][10][40];
+extern char regions[7][40];
 
 #endif
