@@ -154,13 +154,13 @@ void Guide(){
 //------------------------------------------------------------------------------------------------------
 // the following should be made inside a file called battle.cpp and battle.h
 void Battle(int zone){
-	monster *mob = new Monster;
-	mob = monsterCreation(zone);	
+	monster *mob = new monster;
+	*mob = monsterCreation(zone);
 	//
 	while(player.isAlive() && mob->isAlive()){
 		clrscr();
 		printBar("Battle");
-		cout << monster->name << "   " << mob->hp << "/" << mob->maxhp << endl;
+		cout << mob->name << "   " << mob->hp << "/" << mob->maxhp << endl;
 		color.set("blue");
 		cout << player.name << "   " << player.hp << "/" << player.maxhp << endl;
 		color.set("green");
@@ -185,7 +185,7 @@ void Battle(int zone){
 					} else {
 						roundDamage += randomNumber(1,player.att*0.2);
 					}
-					printDelay("You dealt " + roundDamage + "to the monster.");
+					printDelay("You dealt " + to_string(roundDamage) + " to the monster.", 40, true);
 					mob->hp -= roundDamage;
 				} else {
 					printDelay("The monster dodged your attack!", 40, true);
@@ -196,7 +196,7 @@ void Battle(int zone){
 				if(player.maxhp/5 < player.mp){
 					printDelay("You used your mana to recover yourself!", 40 ,true);
 					player.hp += player.maxhp/5;
-					player.mp -= player.maxhp/5;	
+					player.mp -= player.maxhp/5;
 				} else {
 					printDelay("You could not heal yourself as you do not have enough mana!", 40, true);
 				}
@@ -205,11 +205,11 @@ void Battle(int zone){
 			case 2:{
 				if(randomNumber(1,100) <= 25) {
 					//fail
-					printDelay("You failed to escape!", 40, ture);
+					printDelay("You failed to escape!", 40, true);
 				} else {
 					printDelay("You escaped from the monster!", 40 ,true);
 					delete mob;
-					return();
+					return;
 				}
 				break;
 			}
@@ -220,18 +220,18 @@ void Battle(int zone){
 				case 0:{
 					printDelay("The monster attacked you!", 40 , true);
 					roundDamage = mob->att;
-					if(randomNumbers(0,100) <= mob->crit_chance){
+					if(randomNumber(0,100) <= mob->crit_chance){
 						color.set("red");
 						printDelay("Critical Hit!", 40, true);
 						roundDamage *= 1.5;
 						color.set("green");
 					}
-					if(randomNumbers(0,1) == 0){
-						roundDamage -= randomNumbers(1,mob->att*0.2);
+					if(randomNumber(0,1) == 0){
+						roundDamage -= randomNumber(1,mob->att*0.2);
 					} else {
-						roundDamage += randomNumbers(1,mob->att*0.2);
+						roundDamage += randomNumber(1,mob->att*0.2);
 					}
-					printDelay("The monster inflicted " + roundDamage + "to you!", 40 ,true);
+					printDelay("The monster inflicted " + to_string(roundDamage) + " to you!", 40 ,true);
 					player.hp -= roundDamage;
 					break;
 				}
@@ -245,16 +245,19 @@ void Battle(int zone){
 		}
 	}
 	if(player.mp < player.maxmp){
-		printDelay("You recovered some mp." 40 ,end);
+		printDelay("You recovered some mp.", 40 ,true);
 		player.mp += (player.maxmp * 0.1);
 		if(player.mp > player.maxmp) player.mp = player.maxmp;
 	}
 	if(player.hp > 0 && mob->hp <= 0){
 		printDelay("You have slained the monster! You gained " + to_string(mob->expDrop) + "xp", 40, true);
-		player.expUp(mob->expDrop);
+		player.xpUp(mob->expDrop);
+    printDelay("Press any button to continue...", 40, true);
+    getch();
 	}
 	delete mob;
 }
+
 
 //------------------------------------------------------------------------------------------------------
 // the following should be made inside a file called region.cpp and region.h
