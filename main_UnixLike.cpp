@@ -89,7 +89,7 @@ void initialization(){
 //load file from user and recover state based on the info in file
 character loadSave(){
   character p;
-	//TODO: load file and save status into player, note that player can't save other status like monsters, and save file during battle is prohibited
+  //TODO: load file and save status into player, note that player can't save other status like monsters, and save file during battle is prohibited
   ifstream fin;
   fin.open("save.sav");
   if (fin.fail()){
@@ -160,33 +160,34 @@ void Guide(){
 void Battle(int zone){
 	monster *mob = new monster;
 	*mob = monsterCreation(zone);
-	//
+	int tempAttackBoost = 0;
 	while(player.isAlive() && mob->isAlive()){
 		clrscr();
 		printBar("Battle");
-    cout << mob->name << endl;
-    cout << "Level: " << mob->level << endl;
-    cout << "HP: " << mob->hp << "/" << mob->maxhp << endl;
-    cout << "Damage Range: " << mob->att*(1-0.2) << " to " << (mob->att*1.5)*(1+0.2) << endl;
-    color.set("yellow");
-    cout << "--------------------------------------------------------------------------------" << endl;
-		color.set("blue");
-    cout << player.name << endl;
-    cout << "Level: " << player.level << endl;
-		cout << "HP: " << player.hp << "/" << player.maxhp << endl;
-    cout << "MP: " << player.mp << "/" << player.maxmp << endl;
-    cout << endl;
+	    cout << mob->name << endl;
+	    cout << "Level: " << mob->level << endl;
+	    cout << "HP: " << mob->hp << "/" << mob->maxhp << endl;
+	    cout << "Damage Range: " << mob->att*(1-0.2) << " to " << (mob->att*1.5)*(1+0.2) << endl;
+	    color.set("yellow");
+	    cout << "--------------------------------------------------------------------------------" << endl;
+            color.set("blue");
+	    cout << player.name << endl;
+	    cout << "Level: " << player.level << endl;
+	    cout << "HP: " << player.hp << "/" << player.maxhp << endl;
+	    cout << "MP: " << player.mp << "/" << player.maxmp << endl;
+	    cout << "Damage Range: " << player.att + tempAttackBoost - player.att*0.2 << " to " << (player.att + tempAttackBoost)*1.5 + player.att*0.2 << endl;
+	    cout << endl;
 		color.set("green");
 		printDelay("A monster appeared in front of you. What will you do?", 0, true);
 		color.set("yellow");
-		char selections[3][40] = {"Attack", "Defend", "Escape"};
+		char selections[3][40] = {"Attack", "Mana Skill", "Escape"};
 	  	int x = 0, y = 0, roundDamage = 0;
 		getxy(&y, &x);
 		switch(select(selections,0,3,y-1)){
 			case 0:{
 				printDelay("You attacked as hard as you can.", 40 , true);
 				if(randomNumber(0,100) > 10){
-					roundDamage = player.att;
+					roundDamage = player.att + tempAttackBoost;
 					if(randomNumber(0,100) <= player.crit_chance){
 						color.set("red");
 						printDelay("Critical Hit!", 40, true);
@@ -198,7 +199,7 @@ void Battle(int zone){
 					} else {
 						roundDamage += randomNumber(1,player.att*0.2);
 					}
-					printDelay("You dealt " + to_string(roundDamage) + " to the monster.", 40, true);
+					printDelay("You dealt " + to_string(roundDamage) + " damage to the monster.", 40, true);
 					mob->hp -= roundDamage;
 				} else {
 					printDelay("The monster dodged your attack!", 40, true);
@@ -206,12 +207,33 @@ void Battle(int zone){
 				break;
 			}
 			case 1:{
-				if(player.maxhp/5 < player.mp){
-					printDelay("You used your mana to recover yourself!", 40 ,true);
-					player.hp += player.maxhp/2;
-					player.mp -= player.maxhp/2;
-				} else {
-					printDelay("You could not heal yourself as you do not have enough mana!", 40, true);
+				char magic[2][40] = {
+					"Boost Attack. 25% Mana Cost.",
+					"Heal 50% HP. Cost number of HP healed."
+				};
+				
+				getxy(&y, &x);
+				switch(select(magic,0,2,y-1)){
+					case 0:{
+						if(player.mp >= player.maxmp/5){
+							printDelay("You boosted your attack by 25%!", 40, true);
+							player.mp -= player.maxmp/5;
+							tempAttackBoost += 0.25*player.att;
+						} else {
+							printDelay("You could not boost your attack as you do not have enough mana!", 40, true);
+						}
+						break;
+					}
+					case 1:{
+						if(player.maxhp/5 < player.mp){
+							printDelay("You used your mana to recover yourself!", 40 ,true);
+							player.hp += player.maxhp/2;
+							player.mp -= player.maxhp/2;
+						} else {
+							printDelay("You could not heal yourself as you do not have enough mana!", 40, true);
+						}
+						break;
+					}
 				}
 				break;
 			}
@@ -221,6 +243,7 @@ void Battle(int zone){
 					printDelay("You failed to escape!", 40, true);
 				} else {
 					printDelay("You escaped from the monster!", 40 ,true);
+					delay(1000);
 					delete mob;
 					return;
 				}
@@ -244,7 +267,7 @@ void Battle(int zone){
 					} else {
 						roundDamage += randomNumber(1,mob->att*0.2);
 					}
-					printDelay("The monster inflicted " + to_string(roundDamage) + " to you!", 40 ,true);
+					printDelay("The monster inflicted " + to_string(roundDamage) + " damage to you!", 40 ,true);
 					player.hp -= roundDamage;
           delay(1000);
 					break;
@@ -267,8 +290,17 @@ void Battle(int zone){
 	if(player.hp > 0 && mob->hp <= 0){
 		printDelay("You have slained the monster! You gained " + to_string(mob->expDrop) + " xp.", 40, true);
 		player.xpUp(mob->expDrop);
-    printDelay("Press any button to continue...", 40, true);
-    getch();
+    	printDelay("Press any button to continue...", 40, true);
+    	getch();
+	}
+	if(player.hp <= 0){
+	//dead	
+		color.set("red");
+		printDelay("You have fainted! All your current xp has been lost!", 40, true);
+		player.xp = 0;
+		printDelay("Press any button to continue...", 40, true);
+		getch();
+		
 	}
 	delete mob;
 }
@@ -450,6 +482,13 @@ void Region(){
           if (regions[i] == player.position){
             Battle(i);
           }
+        }
+        if(player.hp <= 0){
+        	player.position = "City of Quart";
+        	printDelay("A mage resurrected you and teleported you back to the City of Quart...", 40, true);
+        	player.hp = player.maxhp;
+        	player.mp = player.maxmp;
+        	delay(1000);
         }
         //After_battle();
         break;
