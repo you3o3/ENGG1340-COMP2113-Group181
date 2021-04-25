@@ -25,7 +25,7 @@ struct character : public generalStats {
   std::string position;
   character(std::string nameInputed = "", bool genderInputed = true);
   void lvUp();
-  void expUp(int);
+  void xpUp(int);
 
 };
 
