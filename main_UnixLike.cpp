@@ -107,6 +107,10 @@ character loadSave(){
   fin >> p.att;
   fin >> p.def;
   fin >> p.crit_chance;
+  fin >> p.traitpoints;
+  fin >> p.traitAllowcation[0];
+  fin >> p.traitAllowcation[1];
+  fin >> p.traitAllowcation[2];
   fin.close();
 
   return p;
@@ -130,7 +134,9 @@ void saveFile(){
   fout << player.maxmp << " ";
   fout << player.att << " ";
   fout << player.def << " ";
-  fout << player.crit_chance;
+  fout << player.crit_chance << " ";
+  fout << player.traitpoints << " ";
+  fout << player.traitAllowcation[0] << " " << player.traitAllowcation[1] << " " << player.traitAllowcation[2];
   fout.close();
 }
 
@@ -344,13 +350,14 @@ int OptionsInRegion(){
   printBar(player.position);
   printDelay("You are inside the " + player.position + ".", 40, true);
   printDelay(player.name + ", What do you want to do?", 40, true);
-  char selections[6][40] = {
+  char selections[7][40] = {
     "Move on",
     "Take a rest (heal)",
     "Return to city",
     "Check my status",
     "Save game",
-    "Exit game"
+    "Exit game",
+    "Allowcation of Trait Points"
   };
   int x = 0, y = 0, to_return = 0;
   getxy(&y, &x);
@@ -370,16 +377,17 @@ int OptionsInCity(){
   printBar("City of Quart");
   printDelay("You are inside the " + player.position + ".", 40, true);
   printDelay(player.name + ", What do you want to do?", 40, true);
-  char selections[5][40] = {
+  char selections[6][40] = {
     "Take an adventure",
     "Take a rest (heal)",
     "Check my status",
     "Save game",
-    "Exit game"
+    "Exit game",
+    "Allocation of Trait Points"
   };
   int x = 0, y = 0, to_return = 0;
   getxy(&y, &x);
-  to_return = select(selections,0,5,y-1);
+  to_return = select(selections,0,6,y-1);
   // converting to_return to options in Region()
   if (to_return <= 1){
     return to_return + 1;
@@ -521,7 +529,67 @@ void Region(){
         printDelay("Thank you for playing this game!", 40, true);
         break;
       }
-
+      
+      //8: Allowcation of trait points
+      case 8:{
+      	int x = 0, y = 0;
+      	bool cont = true;
+      	char options[5][40] = {
+      	    "Add 1 point to HP",
+      	    "Add 1 point to Attack",
+      	    "Add 1 point to MP",
+      	    "Finish"
+      	};
+      	while(cont){
+      		clrscr();
+      		printBar("Traits");
+      		cout << "Name: " << player.name << "   Unspent trait points:" << player.traitpoints << endl;
+      		cout << "Current Level: " << player.level << endl;
+      		cout << "Trait points allowcation : HP " << player.traitAllowcation[0] << ", Attack " << player.traitAllowcation[1] << ", MP " << player.traitAllowcation[2] << endl;
+      		cout << "Current stat increases: HP: x" << pow(1.235,player.traitAllowcation[0]) << endl;
+      		cout << "                    Attack: x" << pow(1.17,player.traitAllowcation[1]) << endl;
+      		cout << "                        MP: x" << pow(1.205,player.traitAllowcation[2]) << endl;
+        	getxy(&y, &x);
+      	 	switch(select(options,0,4,y-1)){
+      	 	 case 0:{
+      	 	 	if(player.traitpoints <=0){
+      	 	 		printDelay("You do not have enough trait points!", 30, true);
+      	 	 	} else {
+      	 	 		player.traitAllowcation[0]++;
+      	 	 		player.traitpoints--;
+      	 	 		printDelay("One point has been allowcated to HP.", 30, true);
+      	 	 	}
+      	 	 	break;
+      	 	 }
+      	 	 case 1:{
+      	 	       if(player.traitpoints <=0){
+      	 	 		printDelay("You do not have enough trait points!", 30, true);
+      	 	 	} else {
+      	 	 		player.traitAllowcation[1]++;
+      	 	 		player.traitpoints--;
+      	 	 		printDelay("One point has been allowcated to Attack.", 30, true);
+      	 	 	}
+      	 	 	break;
+      	 	 }
+      	 	 case 2:{
+			if(player.traitpoints <=0){
+      	 	 		printDelay("You do not have enough trait points!", 30, true);
+      	 	 	} else {
+      	 	 		player.traitAllowcation[2]++;
+      	 	 		player.traitpoints--;
+      	 	 		printDelay("One point has been allowcated to MP.", 30, true);
+      	 	 	}
+      	 	 	break; 
+      	 	 }
+      	 	 case 3:{
+      	 	 	printDelay("Leaving the trait menu....",40, true);
+      	 	 	cont = false;
+      	 	 	break;
+      	 	 }
+      	 	}
+      	}
+      	
+	}
     }
   }
 }
