@@ -3,10 +3,11 @@
 
 #include <iostream>
 #include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include <math.h>
 #include <unistd.h>
 #include <termios.h>
-#include <ctime>
 #include <chrono>
 #include <thread>
 #include "usefulF.h"
@@ -207,4 +208,9 @@ void printBar(string to_print){
 	color.set("yellow");
   printf("================================================================================\n");
 	color.set("green");
+}
+
+int randomNumber(int low_limit, int up_limit){
+  srand(time(NULL));
+  return rand() % (up_limit - low_limit + 1) + low_limit;
 }
