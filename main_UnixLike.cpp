@@ -8,7 +8,6 @@
 // for ANSI escape codes, adding fflush(stdout) before or/and after (manually flush) would prevent problems
 
 
-
 #include <iostream>
 #include <cstdio>
 #include <math.h>
@@ -16,6 +15,8 @@
 #include <ctime>
 #include <chrono>
 #include <thread>
+#include <string>
+#include <fstream>
 #include "color.h"
 #include "creature.h"
 #include "usefulF.h"
