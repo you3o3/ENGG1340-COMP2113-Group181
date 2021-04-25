@@ -91,14 +91,15 @@ character::character(string nameInputed, bool genderInputed){
   name = nameInputed;
   gender = genderInputed;
   level = 1;
-  maxhp = 10;                             //tbc
-  maxmp = 5;                             //tbc
+  maxhp = 10;
+  maxmp = 5;
   hp = maxhp;
   mp = maxmp;
-  att = 10;                               //tbc
-  def = 10;                               //tbc
+  att = 10;
+  def = 10;
   xp = 0;
-  xpReq = 50;                            //tbc
+  xpReq = 50;
+  crit_chance = 5;
   position = "City of Quart";
   // role, skill, tbc
 }
