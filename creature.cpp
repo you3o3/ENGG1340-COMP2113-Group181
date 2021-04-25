@@ -133,6 +133,7 @@ monster monsterCreation(int regionGrade){
   newMob.def = (regionGrade+1) * 8
   newMob.expDrop = randomNumber(1,3) * regionGrade * 100 + player.xpReq * 0.5;
   newMob.hp = player.hp * 0.8;
+  newMob.maxhp = newMob.hp;
   newMob.level = player.level + randomNumber(1,4);
   // refer to ppt 5.1, details tbc
   return newMob;
