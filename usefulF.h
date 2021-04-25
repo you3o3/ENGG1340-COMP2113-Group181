@@ -29,4 +29,7 @@ void printDelay(std::string a, int t, bool end);
 // print title bar
 void printBar(std::string to_print);
 
+//return a random number ranging from low_limit to up_limit (including the number of both limits)
+int randomNumber(int low_limit, int up_limit);
+
 #endif
