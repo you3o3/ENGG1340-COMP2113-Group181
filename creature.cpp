@@ -9,6 +9,16 @@ bool generalStats::isAlive(){
   return hp > 0;
 }
 
+char regions[7][40] = {
+  "Adventurers' valley (lv1+)",
+  "Slient forest (lv11+)",
+  "Cemetery of the dark (lv21+)",
+  "Forsaken castle (lv31+)",
+  "Other side of the world (lv41+)",
+  "Nest of dragons (lv51+)",
+  "Abyss (requirement?\?\?)"
+};
+
 char regionMonsters[6][10][40] = {{
 	"Green Slime",
 	"Mini Slime",
