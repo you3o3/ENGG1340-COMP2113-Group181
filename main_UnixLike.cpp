@@ -122,11 +122,75 @@ void Guide(){
 
 //------------------------------------------------------------------------------------------------------
 // the following should be made inside a file called battle.cpp and battle.h
-/* not implemented
-void Battle(){
-
+void Battle(int zone){
+	monster *mob = new Monster;
+	mob = monsterCreation(zone);	
+	//
+	while(player.isAlive() && mob->isAlive()){
+		clrscr();
+		printBar("Battle");
+		monster.name << "   " << mob->hp << "/" << mob->maxhp << endl;
+		color.set("blue");
+		cout << player.name << "   " << player.hp << "/" << player.maxhp << endl;
+		color.set("green");
+		printDelay("A monster appeared in front of you. What will you do?", 0, true);
+		color.set("yellow");
+		char selections[3][40] = {"Attack", "Defend", "Escape"};
+	  	int x = 0, y = 0, roundDamage = 0;
+		getxy(&y, &x);
+		switch(select(selections,0,3,y-1)){
+			case 0:{
+				printDelay("You attacked as hard as you can.", 40 , true);
+				roundDamage = player.att;
+				if(randomNumbers(0,100) <= player.crit_chance){
+					color.set("red");
+					printDelay("Critical Hit!", 40, true);
+					roundDamage *= 1.5;
+					color.set("green");
+				}
+				if(randomNumbers(0,1) == 0){
+					roundDamage -= randomNumbers(1,player.att*0.2);
+				} else {
+					roundDamage += randomNumbers(1,player.att*0.2);
+				}
+				printDelay("You dealt" + roundDamage + "to the monster.");
+				mob->hp -= roundDamage;
+			}
+			case 1:{
+				
+				printDelay("You could not defend yourself!", 40, true);
+			}
+			case 2:{
+				break();
+			}
+		}
+		roundDamage = 0;
+		switch(randomNumbers(0,1)){
+			case 0:{
+				printDelay("The monster attacked you!", 40 , true);
+				roundDamage = mob->att;
+				if(randomNumbers(0,100) <= mob->crit_chance){
+					color.set("red");
+					printDelay("Critical Hit!", 40, true);
+					roundDamage *= 1.5;
+					color.set("green");
+				}
+				if(randomNumbers(0,1) == 0){
+					roundDamage -= randomNumbers(1,mob->att*0.2);
+				} else {
+					roundDamage += randomNumbers(1,mob->att*0.2);
+				}
+				printDelay("The monster inflicted" + roundDamage + "to you!", 40 ,true);
+				player.hp -= roundDamage;
+			}
+			case 1:{
+				
+				break;
+			}
+		}	
+	}
+	delete mob;
 }
-*/
 
 //------------------------------------------------------------------------------------------------------
 // the following should be made inside a file called region.cpp and region.h
