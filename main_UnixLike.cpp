@@ -160,9 +160,18 @@ void Battle(int zone){
 	while(player.isAlive() && mob->isAlive()){
 		clrscr();
 		printBar("Battle");
-		cout << mob->name << "   " << mob->hp << "/" << mob->maxhp << endl;
+    cout << mob->name << endl;
+    cout << "Level: " << mob->level << endl;
+    cout << "HP: " << mob->hp << "/" << mob->maxhp << endl;
+    cout << "Damage Range: " << mob->att*(1-0.2) << " to " << (mob->att*1.5)*(1+0.2) << endl;
+    color.set("yellow");
+    cout << "--------------------------------------------------------------------------------" << endl;
 		color.set("blue");
-		cout << player.name << "   " << player.hp << "/" << player.maxhp << endl;
+    cout << player.name << endl;
+    cout << "Level: " << player.level << endl;
+		cout << "HP: " << player.hp << "/" << player.maxhp << endl;
+    cout << "MP: " << player.mp << "/" << player.maxmp << endl;
+    cout << endl;
 		color.set("green");
 		printDelay("A monster appeared in front of you. What will you do?", 0, true);
 		color.set("yellow");
@@ -195,8 +204,8 @@ void Battle(int zone){
 			case 1:{
 				if(player.maxhp/5 < player.mp){
 					printDelay("You used your mana to recover yourself!", 40 ,true);
-					player.hp += player.maxhp/5;
-					player.mp -= player.maxhp/5;
+					player.hp += player.maxhp/2;
+					player.mp -= player.maxhp/2;
 				} else {
 					printDelay("You could not heal yourself as you do not have enough mana!", 40, true);
 				}
@@ -233,12 +242,14 @@ void Battle(int zone){
 					}
 					printDelay("The monster inflicted " + to_string(roundDamage) + " to you!", 40 ,true);
 					player.hp -= roundDamage;
+          delay(1000);
 					break;
 				}
 				case 1:{
 					color.set("red");
-					printDelay("The monster gets angry and increased its next attack!", 40 ,true);
-					mob->att += mob->att * 0.15;
+					printDelay("The monster gets angry and its upcoming attacks will be more desrctuive!", 40 ,true);
+					mob->att += mob->att * 0.3;
+          delay(1000);
 					break;
 				}
 			}
@@ -246,11 +257,11 @@ void Battle(int zone){
 	}
 	if(player.mp < player.maxmp){
 		printDelay("You recovered some mp.", 40 ,true);
-		player.mp += (player.maxmp * 0.1);
+		player.mp += (player.maxmp * 0.2);
 		if(player.mp > player.maxmp) player.mp = player.maxmp;
 	}
 	if(player.hp > 0 && mob->hp <= 0){
-		printDelay("You have slained the monster! You gained " + to_string(mob->expDrop) + "xp", 40, true);
+		printDelay("You have slained the monster! You gained " + to_string(mob->expDrop) + " xp.", 40, true);
 		player.xpUp(mob->expDrop);
     printDelay("Press any button to continue...", 40, true);
     getch();
