@@ -3,45 +3,63 @@
 #include <cstdlib>
 #include <ctime>
 
-using std::string;
+using namespace std;
 
+//if creature not dead then return true, otherwise return false
 bool generalStats::isAlive(){
   return hp > 0;
 }
 
+//constructor of character
 character::character(string nameInputed, bool genderInputed){
   name = nameInputed;
   gender = genderInputed;
   level = 1;
-  maxhp =0;                             //tbc
-  maxmp =0;                             //tbc
+  maxhp = 10;                             //tbc
+  maxmp = 5;                             //tbc
   hp = maxhp;
   mp = maxmp;
-  att =0;                               //tbc
-  def =0;                               //tbc
+  att = 10;                               //tbc
+  def = 10;                               //tbc
   xp = 0;
-  xpReq =0;                            //tbc
-  // role, skill, position tbc
+  xpReq = 50;                            //tbc
+  position = "City of Quart";
+  // role, skill, tbc
 }
 
+//level up
 void character::lvUp(){
   xp -= xpReq;
   level += 1;
-  xpReq +=0;                           //tbc
-  // stats increase tbc
-  // hp/mp full recover tbc
-  // print message tbc
+  xpReq = 50 (level * level - level) ;
+
+  //status increase
+  maxhp += level * 3;
+  maxmp += level * 2;
+  att = level * 10 + 3;
+  def = level * 7;
+
+  //recover hp, mp
+  hp = maxhp;
+  mp = maxmp;
+
+  printDelay("You level up! Your current level is: " + level, 40, true);
+  printDelay("You need " + xpReq + " xp to reach next level", 40, true);
+  printDelay("Your hp and mp fully recovered!", 40, true);
 }
 
-void character::expUp(int xpGain){
+//increase exp
+void character::expUp(int expGain){
   xp += xpGain;
-  while (xp >= xpReq){
+  while (exp >= expReq){
     lvUp();
   }
 }
 
 monster monsterCreation(int regionGrade){
   monster newMob;
+  //monster* newMob = new monster;
+
   srand(time(NULL));
   // refer to ppt 5.1, details tbc
   return newMob;
