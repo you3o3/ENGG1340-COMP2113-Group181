@@ -9,7 +9,7 @@ bool generalStats::isAlive(){
   return hp > 0;
 }
 
-char regionMonsters[10][40][6] = {{
+char regionMonsters[6][10][40] = {{
 	"Green Slime",
 	"Mini Slime",
 	"Corrupted Slime",
