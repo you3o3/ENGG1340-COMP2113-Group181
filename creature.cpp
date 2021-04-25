@@ -124,9 +124,16 @@ void character::lvUp(){
   printDelay("Your hp and mp fully recovered!", 40, true);
 }
 
-monster monsterCreation(int regionGrade, string name){
+monster monsterCreation(int regionGrade){
   monster newMob;
   srand(time(NULL));
+  int n = randomNumber(0,9);
+  newMob.name = regionMonsters[regionGrade][n];
+  newMob.att = (regionGrade+1) * 11;
+  newMob.def = (regionGrade+1) * 8
+  newMob.expDrop = randomNumber(1,3) * regionGrade * 100 + player.xpReq * 0.5;
+  newMob.hp = player.hp * 0.8;
+  newMob.level = player.level + randomNumber(1,4);
   // refer to ppt 5.1, details tbc
   return newMob;
 }
