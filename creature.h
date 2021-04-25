@@ -11,6 +11,8 @@ struct generalStats{
   int mp, maxmp;
   int att;
   int def;
+  // crit_chance ranging from 0 to 100 (%)
+  int crit_chance;
   bool isAlive();
 };
 
