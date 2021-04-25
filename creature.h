@@ -26,6 +26,9 @@ struct character : public generalStats {
   character(std::string nameInputed = "", bool genderInputed = true);
   void lvUp();
   void xpUp(int);
+  void traitSet(int);
+  int traitpoints;
+  int traitAllowcation[3];
 
 };
 
