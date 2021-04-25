@@ -86,17 +86,48 @@ void initialization(){
 
 }
 
-
 //load file from user and recover state based on the info in file
 character loadSave(){
   character p;
 	//TODO: load file and save status into player, note that player can't save other status like monsters, and save file during battle is prohibited
-	return p;
+  ifstream fin;
+  fin.open("save.sav");
+  if (fin.fail()){
+    cout << "Open file fails. Please contact us." << endl;
+    exit(1);
+  }
+  getline(fin, p.name);
+  fin >> p.level;
+  fin >> p.hp;
+  fin >> p.maxhp;
+  fin >> p.mp;
+  fin >> p.maxmp;
+  fin >> p.att;
+  fin >> p.def;
+  fin >> p.crit_chance;
+  fin.close();
+
+  return p;
 }
 
 //save file into user's computer
-void saveFile(char fileName[]){
-
+void saveFile(){
+  ofstream fout;
+  fout.open("save.sav");
+  if (fout.fail()){
+    cout << "Open file fails. Please contact us." << endl;
+    exit(1);
+  }
+  fout << player.name << endl;
+  fout << player.level << " ";
+  fout << player.hp << " ";
+  fout << player.maxhp << " ";
+  fout << player.mp << " ";
+  fout << player.maxmp << " ";
+  fout << player.att << " ";
+  fout << player.def << " ";
+  fout << player.crit_chance;
+  fout.close();
 }
 
 //guide request and provide guide if user want
@@ -194,7 +225,6 @@ void Battle(int zone){
 
 //------------------------------------------------------------------------------------------------------
 // the following should be made inside a file called region.cpp and region.h
-
 void Adventure_option(){
   clrscr();
 
@@ -275,6 +305,28 @@ int OptionsInCity(){
   }
 }
 
+void show_player_status(){
+  clrscr();
+  color.set("yellow");
+  printf("================================================================================\n");
+	color.set("blue");
+  cout << "Name:\t" + player.name << endl;
+  if (!player.gender){
+    cout << "Gender:\tFemale" << endl;
+  } else {
+    cout << "Gender:\tMale" << endl;
+  }
+  cout << "Level:\t" + to_string(player.level) << endl;
+  cout << "XP:\t" + to_string(player.xp) + "/" + to_string(player.xpReq) << endl;
+  cout << "HP:\t" + to_string(player.hp) + "/" + to_string(player.maxhp) << endl;
+  cout << "MP:\t" + to_string(player.mp) + "/" + to_string(player.maxmp) << endl;
+  color.set("yellow");
+  printf("================================================================================\n");
+	color.set("green");
+  printDelay("Press any button to continue...", 40, true);
+  getch();
+}
+
 void Region(){
   /*note: what options represent
   0: NULL
@@ -307,13 +359,47 @@ void Region(){
       //2: Take a rest (heal)
       case 2:{
         printDelay("Recovering hp and mp...", 60, true);
-        //recover hp mp (how much?), if in city then just heal, if in other places have chance to encounter monster
+        if (player.position == "City of Quart"){
+          player.hp = player.maxhp;
+          player.mp = player.maxmp;
+          printDelay("Your hp and mp fully recovered!", 40, true);
+          delay(1000);
+        } else {
+          //if in other places have chance to encounter monster
+          if (player.hp * 1.2 > player.maxhp){
+            player.hp = player.maxhp;
+          } else {
+            player.hp = (int)(1.2 * player.hp);
+          }
+          if (player.mp * 1.2 > player.maxmp){
+            player.mp = player.maxmp;
+          } else {
+            player.mp = (int)(1.2 * player.mp);
+          }
+          printDelay("Your hp and mp partially recovered!", 40, true);
+          delay(1000);
+          if (randomNumber(0,5) == 0){
+            color.set("red");
+            printDelay("While resting, a monster suddenly attacks you!", 30, true);
+            delay(1000);
+            //Battle();
+            color.set("green");
+          }
+        }
+
         break;
       }
 
       //3: Move on (during an adventure)
       case 3:{
-        //Battle();
+        color.set("red");
+        printDelay("You encounter a monster!", 40, true);
+        delay(1000);
+        for (int i = 0; i < 7; i++){
+          if (regions[i] == player.position){
+            Battle(i);
+          }
+        }
         //After_battle();
         break;
       }
@@ -328,13 +414,15 @@ void Region(){
 
       //5: Check my status
       case 5:{
-        //print current status
+        show_player_status();
         break;
       }
 
       //6: Save game
       case 6:{
-        //saveFile(?)
+        saveFile();
+        printDelay("File saved!", 40 ,true);
+        delay(1000);
         break;
       }
 
