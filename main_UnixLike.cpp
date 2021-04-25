@@ -140,19 +140,10 @@ void Adventure_option(){
   printf("================================================================================\n");
   color.set("green");
   printDelay("List of places: ", 40, true);
-  char selections[7][40] = {
-    "Adventurers' valley (lv1+)",
-    "Slient forest (lv11+)",
-    "Cemetery of the dark (lv21+)",
-    "Forsaken castle (lv31+)",
-    "Other side of the world (lv41+)",
-    "Nest of dragons (lv51+)",
-    "Abyss (requirement?\?\?)"
-  };
 
   int x = 0, y = 0, lvlimit = (player.level - 1) / 10;
   getxy(&y, &x);
-  int pos = select(selections,0,7,y-1);
+  int pos = select(regions,0,7,y-1);
   while (lvlimit < pos){
     color.set("red");
     printDelay("The Wall blocked your way...", 40, true);
@@ -164,9 +155,9 @@ void Adventure_option(){
     color.set("green");
     printDelay("List of places: ", 40, true);
     getxy(&y, &x);
-    pos = select(selections,0,7,y-1);
+    pos = select(regions,0,7,y-1);
   }
-  player.position = selections[pos];
+  player.position = regions[pos];
   printDelay("You're walking to the " + player.position + ".", 40, true);
   delay(1000);
 }
