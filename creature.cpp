@@ -87,12 +87,14 @@ char regionMonsters[6][10][40] = {{
 	"Ruler"
 }};
 
+
+//constructor of character
 character::character(string nameInputed, bool genderInputed){
   name = nameInputed;
   gender = genderInputed;
   level = 1;
-  maxhp = 10;
-  maxmp = 5;
+  maxhp = 40;
+  maxmp = 20;
   hp = maxhp;
   mp = maxmp;
   att = 10;
@@ -108,7 +110,7 @@ character::character(string nameInputed, bool genderInputed){
 void character::lvUp(){
   xp -= xpReq;
   level += 1;
-  xpReq = 50 (level * level - level) ;
+  xpReq = 50 * (level * level - level) ;
 
   //status increase
   maxhp += level * 3;
@@ -116,29 +118,42 @@ void character::lvUp(){
   att = level * 10 + 3;
   def = level * 7;
 
-  //recover hp, mp
-  hp = maxhp;
-  mp = maxmp;
+}
 
-  printDelay("You level up! Your current level is: " + level, 40, true);
-  printDelay("You need " + xpReq + " xp to reach next level", 40, true);
-  printDelay("Your hp and mp fully recovered!", 40, true);
+//increase exp
+void character::xpUp(int xpGain){
+  xp += xpGain;
+  bool is_lvUp = false;
+  while (xp >= xpReq){
+    lvUp();
+    is_lvUp = true;
+  }
+  if (is_lvUp) {
+    //recover hp, mp
+    hp = maxhp;
+    mp = maxmp;
+    printDelay("You level up! Your current level is: " + to_string(level), 40, true);
+    printDelay("You need " + to_string(xpReq) + " xp to reach next level.", 40, true);
+    printDelay("Your hp and mp fully recovered!", 40, true);
+  }
 }
 
 monster monsterCreation(int regionGrade){
   monster newMob;
-  srand(time(NULL));
   int n = randomNumber(0,9);
   newMob.name = regionMonsters[regionGrade][n];
-  newMob.att = (regionGrade+1) * 11;
-  newMob.def = (regionGrade+1) * 8
+
+  newMob.def = (regionGrade+1) * 8;
+  //newMob.expDrop = 100000;
   newMob.expDrop = randomNumber(1,3) * regionGrade * 100 + player.xpReq * 0.5;
-  newMob.hp = player.hp * 0.8;
+  newMob.hp = player.hp * randomNumber(10,20) / 10 + regionGrade * randomNumber(10,40);
   newMob.maxhp = newMob.hp;
   newMob.level = player.level + randomNumber(1,4);
+  newMob.att = newMob.level * 7 + (regionGrade+1) * 2;
   // refer to ppt 5.1, details tbc
   return newMob;
 }
+
 
 character player;
 
