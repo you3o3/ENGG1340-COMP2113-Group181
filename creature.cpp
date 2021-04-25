@@ -145,14 +145,14 @@ monster monsterCreation(int regionGrade){
   monster newMob;
   int n = randomNumber(0,9);
   newMob.name = regionMonsters[regionGrade][n];
-
+  newMob.crit_chance = player.crit_chance + randomNumber(-3,3);
   newMob.def = (regionGrade+1) * 8;
   //newMob.expDrop = 100000;
-  newMob.expDrop = randomNumber(1,3) * regionGrade * 100 + player.xpReq * 0.5;
+  newMob.expDrop = randomNumber(1,3) * (regionGrade+1) * 100 + player.xpReq * 0.5;
   newMob.hp = player.hp * randomNumber(10,20) / 10 + regionGrade * randomNumber(10,40);
   newMob.maxhp = newMob.hp;
   newMob.level = player.level + randomNumber(1,4);
-  newMob.att = newMob.level * 7 + (regionGrade+1) * 2;
+  newMob.att = player.att * 0.7 + (regionGrade+1) * 2 + randomNumber(-5,+5)*(regionGrade+1);
   // refer to ppt 5.1, details tbc
   return newMob;
 }
