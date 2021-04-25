@@ -3,14 +3,80 @@
 #include <cstdlib>
 #include <ctime>
 
-using namespace std;
+using std::string;
 
-//if creature not dead then return true, otherwise return false
 bool generalStats::isAlive(){
   return hp > 0;
 }
 
-//constructor of character
+char regionMonsters[10][40][6] = {{
+	"Green Slime",
+	"Mini Slime",
+	"Corrupted Slime",
+	"Sparky",
+	"Water trappers",
+	"Giant Mantis",
+	"Shroomitail",
+	"Glittering Slime",
+	"Boulder",
+	"Frosted"
+},{
+	"Screammaker",
+	"Greedy Goblin",
+	"Mangled Ogre",
+	"Reaper",
+	"Haunted",
+	"Trapped Soul",
+	"Glowing Spores",
+	"Entangled Vines",
+	"Goblin Leader",
+	"Ogre Commander"
+},{
+	"Brain Rot",
+	"Headless",
+	"Bloodthrist",
+	"Armored Zombie",
+	"Son of the Tempest",
+	"Mimic",
+	"Ravenger",
+	"Hanged",
+	"Suffocater",
+	"Aetherized Zombie"
+}, {
+	"Witch Apprentice",
+	"Evitch",
+	"Spider Puppet",
+	"Hellhound",
+	"Wicked",
+	"Witchcraft Master",
+	"Salem",
+	"Frankenpuppet",
+	"Headslicer",
+	"Raven"
+},{
+	"Merezeda",
+	"Mazerguito",
+	"Dripper",
+	"Vampire",
+	"Haemoclotter",
+	"Father of all",
+	"Dracula",
+	"Spike",
+	"Amber",
+	"Dream Maker"
+}, {
+	"Rathalos",
+	"Tempest",
+	"Valhazaard",
+	"Behemoth",
+	"Raijin",
+	"Fieryostra",
+	"Hellstrix",
+	"Dragon Rider",
+	"Alflection",
+	"Ruler"
+}};
+
 character::character(string nameInputed, bool genderInputed){
   name = nameInputed;
   gender = genderInputed;
@@ -48,18 +114,8 @@ void character::lvUp(){
   printDelay("Your hp and mp fully recovered!", 40, true);
 }
 
-//increase exp
-void character::expUp(int expGain){
-  xp += xpGain;
-  while (exp >= expReq){
-    lvUp();
-  }
-}
-
-monster monsterCreation(int regionGrade){
+monster monsterCreation(int regionGrade, string name){
   monster newMob;
-  //monster* newMob = new monster;
-
   srand(time(NULL));
   // refer to ppt 5.1, details tbc
   return newMob;
