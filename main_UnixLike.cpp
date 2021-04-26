@@ -304,9 +304,17 @@ void Battle(int zone){
 		color.set("red");
 		printDelay("You have fainted! All your current xp has been lost!", 40, true);
 		player.xp = 0;
+		color.set("green");
 		printDelay("Press any button to continue...", 40, true);
 		getch();
-		
+		clrscr();
+		printBar("City of Quart");
+		player.position = "City of Quart";
+		printDelay("When you wake up, you find yourself inside your room in the City of Quart...", 40, true);
+		printDelay("You have no idea what's going on...", 40, true);
+		player.hp = player.maxhp;
+		player.mp = player.maxmp;
+		delay(1000);
 	}
 	delete mob;
 }
@@ -469,12 +477,18 @@ void Region(){
           }
           printDelay("Your hp and mp partially recovered!", 40, true);
           delay(1000);
+	
           if (randomNumber(0,5) == 0){
             color.set("red");
             printDelay("While resting, a monster suddenly attacks you!", 30, true);
             delay(1000);
-            //Battle();
             color.set("green");
+            for (int i = 0; i < 7; i++){
+              if (regions[i] == player.position){
+                Battle(i);
+              }
+            }
+            
           }
         }
 
@@ -491,14 +505,6 @@ void Region(){
             Battle(i);
           }
         }
-        if(player.hp <= 0){
-        	player.position = "City of Quart";
-        	printDelay("A mage resurrected you and teleported you back to the City of Quart...", 40, true);
-        	player.hp = player.maxhp;
-        	player.mp = player.maxmp;
-        	delay(1000);
-        }
-        //After_battle();
         break;
       }
 
@@ -545,7 +551,7 @@ void Region(){
       		printBar("Traits");
       		cout << "Name: " << player.name << "   Unspent trait points:" << player.traitpoints << endl;
       		cout << "Current Level: " << player.level << endl;
-      		cout << "Trait points allowcation : HP " << player.traitAllowcation[0] << ", Attack " << player.traitAllowcation[1] << ", MP " << player.traitAllowcation[2] << endl;
+      		cout << "Trait points allocation : HP " << player.traitAllowcation[0] << ", Attack " << player.traitAllowcation[1] << ", MP " << player.traitAllowcation[2] << endl;
       		cout << "Current stat increases: HP: x" << pow(1.235,player.traitAllowcation[0]) << endl;
       		cout << "                    Attack: x" << pow(1.17,player.traitAllowcation[1]) << endl;
       		cout << "                        MP: x" << pow(1.205,player.traitAllowcation[2]) << endl;
