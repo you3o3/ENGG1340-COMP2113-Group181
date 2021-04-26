@@ -134,17 +134,29 @@ void character::lvUp(){
 
 //Add traits
 void character::traitSet(int option){
-	if(option == 0){
-	 maxhp = maxhp * pow(1.235,traitAllocation[0]);
-	 hp = maxhp;
-	} else if (option == 1) {
-	 att = att * pow(1.17,traitAllocation[1]);
-	} else if (option == 2){
-	 maxmp = maxmp * pow(1.205, traitAllocation[2]);
-	 mp = maxmp;
-	} else if (option == 3) {
-	 crit_chance = 5 + 4*traitAllocation[3];
-	}
+  if(option == 0){
+    if (traitAllocation[0] != 1){
+      maxhp = maxhp / pow(1.235,traitAllocation[0]-1) * pow(1.235,traitAllocation[0]);
+    } else {
+      maxhp = maxhp * pow(1.235,traitAllocation[0]);
+    }
+    hp = maxhp;
+  } else if (option == 1) {
+    if (traitAllocation[1] != 1){
+      att = att / pow(1.17,traitAllocation[1]-1) * pow(1.17,traitAllocation[1]);
+    } else {
+      att = att * pow(1.17,traitAllocation[1]);
+    }
+  } else if (option == 2){
+    if (traitAllocation[2] != 1){
+      maxmp = maxmp / pow(1.205, traitAllocation[2]-1) * pow(1.205, traitAllocation[2]);
+    } else {
+      maxmp = maxmp * pow(1.205, traitAllocation[2]);
+    }
+    mp = maxmp;
+  } else if (option == 3) {
+    crit_chance = 5 + 4*traitAllocation[3];
+  }
 }
 
 //increase exp
@@ -169,15 +181,31 @@ monster monsterCreation(int regionGrade){
   monster newMob;
   int n = randomNumber(0,9);
   newMob.name = regionMonsters[regionGrade][n];
-  newMob.crit_chance = player.crit_chance + randomNumber(-3,3);
-  newMob.def = (regionGrade+1) * 8;
+
   //newMob.expDrop = 100000;
-  newMob.expDrop = randomNumber(1,3) * (regionGrade+1) * 100 + player.xpReq * 0.5;
-  newMob.hp = player.hp * randomNumber(10,20) / 10 + regionGrade * randomNumber(10,40);
+  if (player.level >= (regionGrade+1) * 10 + 1){
+    printDelay("Your level is higher than the region level.", 40, true);
+    printDelay("Your xp gain would be significantly reduced.", 40, true);
+    delay(1000);
+    newMob.expDrop = randomNumber(1,3) * (regionGrade+1) * 100;
+    newMob.level = (regionGrade+1) * 10 + randomNumber(-4,0);
+  } else {
+    newMob.expDrop = randomNumber(1,3) * regionGrade * 100 + player.xpReq * 0.5;
+    newMob.level = player.level + randomNumber(-2,2);
+  }
+  //mimic player status at the same level
+  newMob.hp = 40;
+  for (int i = 0; i < newMob.level; i++){
+    newMob.hp += newMob.level * 3;
+  }
+  newMob.att = newMob.level * 10 + 3;
+
+  //adjustment
+  newMob.hp = newMob.hp * randomNumber(10,20) / 10 + regionGrade * randomNumber(10,40);
   newMob.maxhp = newMob.hp;
-  newMob.level = player.level + randomNumber(1,4);
-  newMob.att = player.att * 0.7 + (regionGrade+1) * 2 + randomNumber(-5,+5)*(regionGrade+1);
-  // refer to ppt 5.1, details tbc
+  newMob.att = newMob.att * 0.7 + (regionGrade+1) * 2 + randomNumber(-5,+5)*(regionGrade+1);
+  newMob.crit_chance = 5 + randomNumber(-3,3);
+  newMob.def = (regionGrade+1) * 8;
   return newMob;
 }
 
