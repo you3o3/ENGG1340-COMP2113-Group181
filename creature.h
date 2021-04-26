@@ -28,7 +28,7 @@ struct character : public generalStats {
   void xpUp(int);
   void traitSet(int);
   int traitpoints;
-  int traitAllowcation[3];
+  int traitAllocation[5];
 
 };
 
