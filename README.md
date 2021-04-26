@@ -97,6 +97,14 @@ According to https://moodle.hku.hk/mod/forum/discuss.php?d=630243:
 
 We searched online and found many useful functions that can help us in developing our codes, we would like to acknowledge them:
 
-
+ - https://stackoverflow.com/questions/1670891/how-can-i-print-a-string-to-the-console-at-specific-coordinates-in-c
+ - https://stackoverflow.com/questions/4062045/clearing-terminal-in-linux-with-c-code
+ - https://stackoverflow.com/questions/50884685/how-to-get-cursor-position-in-c-using-ansi-code
+ - https://thoughtsordiscoveries.wordpress.com/2017/04/26/set-and-read-cursor-position-in-terminal-windows-and-linux/
+ - https://stackoverflow.com/questions/158585/how-do-you-add-a-timed-delay-to-a-c-program/9747668
+ - https://stackoverflow.com/questions/2971254/c-sleep-and-loops
+ - https://stackoverflow.com/questions/421860/capture-characters-from-standard-input-without-waiting-for-enter-to-be-pressed
+ - https://stackoverflow.com/questions/9158150/colored-output-in-c
+ - https://en.wikipedia.org/wiki/ANSI_escape_code
 
 The credits are also included in the codes.
