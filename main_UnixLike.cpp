@@ -263,7 +263,7 @@ void Battle(int zone) {
         case 1: {
             char magic[2][40] = {
                 "Boost Attack. 25% Mana Cost.",
-                "Heal 50% HP. Cost number of HP healed."
+                "Heal HP. Mana Cost: 1/3 of total HP."
             };
 
             getxy( & y, & x);
@@ -279,10 +279,11 @@ void Battle(int zone) {
                 break;
             }
             case 1: {
-                if (player.maxhp / 5 <= player.mp) {
+                if (player.mp >= player.maxhp / 3) {
                     printDelay("You used your mana to recover yourself!", 40, true);
                     player.hp += player.maxhp / 2;
-                    player.mp -= player.maxhp / 2;
+                    if (player.hp > player.maxhp) player.hp = player.maxhp;
+                    player.mp -= player.maxhp / 3;
                 } else {
                     printDelay("You could not heal yourself as you do not have enough mana!", 40, true);
                 }
@@ -610,7 +611,7 @@ void Region() {
             while (cont) {
                 clrscr();
                 printBar("Traits");
-                cout << "Name: " << player.name << "   Unspent trait points:" << player.traitpoints << endl;
+                cout << "Name: " << player.name << "   Unspent trait points: " << player.traitpoints << endl;
                 cout << "Current Level: " << player.level << endl;
                 cout << "Trait points allocation : HP " << player.traitAllocation[0] << ", Attack " << player.traitAllocation[1] << ", MP " << player.traitAllocation[2] << ", Crit Chance " << player.traitAllocation[3] << ", Evasion " << player.traitAllocation[4] << endl;
                 cout << "Current stat increases: HP: x" << pow(1.235, player.traitAllocation[0]) << endl;
@@ -626,6 +627,7 @@ void Region() {
                 case 0: {
                     if (player.traitpoints <= 0) {
                         printDelay("You do not have enough trait points!", 30, true);
+                        delay(500);
                     } else {
                         cout << "One point will be allocated to HP and your boost will increase to x" << pow(1.235, player.traitAllocation[0] + 1) << endl << "Are you sure?" << endl;
                         getxy( & y, & x);
@@ -635,11 +637,13 @@ void Region() {
                             player.traitpoints--;
                             printDelay("One point has been allocated to HP.", 30, true);
                             player.traitSet(0);
+                            delay(500);
                             break;
 
                         }
                         case 1: {
                             printDelay("No change was made to the traits!", 30, true);
+                            delay(500);
                             break;
                         }
                         }
@@ -649,6 +653,7 @@ void Region() {
                 case 1: {
                     if (player.traitpoints <= 0) {
                         printDelay("You do not have enough trait points!", 30, true);
+                        delay(500);
                     } else {
                         cout << "One point will be allocated to Attack and your boost will increase to x" << pow(1.17, player.traitAllocation[1] + 1) << endl << "Are you sure?" << endl;
                         getxy( & y, & x);
@@ -658,11 +663,13 @@ void Region() {
                             player.traitpoints--;
                             printDelay("One point has been allocated to Attack.", 30, true);
                             player.traitSet(1);
+                            delay(500);
                             break;
 
                         }
                         case 1: {
                             printDelay("No change was made to the traits!", 30, true);
+                            delay(500);
                             break;
                         }
                         }
@@ -672,6 +679,7 @@ void Region() {
                 case 2: {
                     if (player.traitpoints <= 0) {
                         printDelay("You do not have enough trait points!", 30, true);
+                        delay(500);
                     } else {
                         cout << "One point will be allocated to MP and your boost will increase to x" << pow(1.205, player.traitAllocation[2] + 1) << endl << "Are you sure?" << endl;
                         getxy( & y, & x);
@@ -681,11 +689,13 @@ void Region() {
                             player.traitpoints--;
                             printDelay("One point has been allocated to MP.", 30, true);
                             player.traitSet(2);
+                            delay(500);
                             break;
 
                         }
                         case 1: {
                             printDelay("No change was made to the traits!", 30, true);
+                            delay(500);
                             break;
                         }
                         }
@@ -695,6 +705,7 @@ void Region() {
                 case 3: {
                     if (player.traitpoints <= 0) {
                         printDelay("You do not have enough trait points!", 30, true);
+                        delay(500);
                     } else {
                         cout << "One point will be allocated to Crit Chance and your chacne will be " << 5 + 4 * (player.traitAllocation[3] + 1) << "%" << endl << "Are you sure?" << endl;
                         getxy( & y, & x);
@@ -704,11 +715,13 @@ void Region() {
                             player.traitpoints--;
                             printDelay("One point has been allocated to Crit Chance.", 30, true);
                             player.traitSet(3);
+                            delay(500);
                             break;
 
                         }
                         case 1: {
                             printDelay("No change was made to the traits!", 30, true);
+                            delay(500);
                             break;
                         }
                         }
@@ -718,6 +731,7 @@ void Region() {
                 case 4: {
                     if (player.traitpoints <= 0) {
                         printDelay("You do not have enough trait points!", 30, true);
+                        delay(500);
                     } else {
                         cout << "One point will be allocated to Evasion and your chance will be " << 5 + 3 * (player.traitAllocation[4] + 1) << "%" << endl << "Are you sure?" << endl;
                         getxy( & y, & x);
@@ -726,11 +740,13 @@ void Region() {
                             player.traitAllocation[4]++;
                             player.traitpoints--;
                             printDelay("One point has been allocated to Evasion.", 30, true);
+                            delay(500);
                             break;
 
                         }
                         case 1: {
                             printDelay("No change was made to the traits!", 30, true);
+                            delay(500);
                             break;
                         }
                         }
@@ -740,6 +756,7 @@ void Region() {
                 case 5: {
                     printDelay("Leaving the trait menu....", 40, true);
                     cont = false;
+                    delay(500);
                     break;
                 }
                 }
