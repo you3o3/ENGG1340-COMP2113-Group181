@@ -779,7 +779,7 @@ void Menu() {
     color.set("yellow");
     printf("================================================================================\n");
     color.set("blue");
-    printf("              MONSTER SLAYER    -    An Endless Fight and Survive RPG           \n");
+    printf("                    Novice Adventurer    -    Road to the Abyss                 \n");
     color.set("yellow");
     printf("                                                                                \n");
     color.set("green");
