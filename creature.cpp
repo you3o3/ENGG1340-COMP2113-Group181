@@ -216,7 +216,7 @@ monster monsterCreation(int regionGrade) {
         newMob.level = player.level + randomNumber(-2, 2);
         if (newMob.level <= 0) newMob.level = 1;
     }
-    newMob.expDrop = 1000000;
+    //newMob.expDrop = 1000000;
     //mimic player status at the same level
     newMob.hp = 40;
     for (int i = 0; i < newMob.level; i++) {
