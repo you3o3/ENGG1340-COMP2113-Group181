@@ -205,7 +205,7 @@ monster monsterCreation(int regionGrade) {
     newMob.name = regionMonsters[regionGrade][n];
 
     //newMob.expDrop = 100000;
-    if (player.level >= (regionGrade + 1) * 10 + 1) {
+    if (player.level >= (regionGrade + 1) * 10 + 1 && regionGrade != 5) {
         printDelay("Your level is higher than the region level.", 40, true);
         printDelay("Your xp gain would be significantly reduced.", 40, true);
         delay(1000);
@@ -227,7 +227,7 @@ monster monsterCreation(int regionGrade) {
     //adjustment
     newMob.hp = newMob.hp * randomNumber(10, 20) / 10 + regionGrade * randomNumber(10, 40);
     newMob.maxhp = newMob.hp;
-    newMob.att = newMob.att * 0.7 + (regionGrade + 1) * 2 + randomNumber(-5, +5) * (regionGrade + 1);
+    newMob.att = newMob.att * 0.9 + (regionGrade + 1) * 2 + randomNumber(-5, +5) * (regionGrade + 1);
     newMob.crit_chance = 5 + randomNumber(-3, 3);
     newMob.def = (regionGrade + 1) * 8;
     return newMob;
