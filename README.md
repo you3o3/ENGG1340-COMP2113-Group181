@@ -88,3 +88,15 @@ According to requirements:
 > You should make sure your code can be successfully compiled in the Computer Science department's `academy11` server or the `academy21` server. Please indicate which of the two servers you have used for testing in your project documentation.
 
 We tested our code and it successfully compiled on the `academy21` server.
+
+## Credits
+
+According to https://moodle.hku.hk/mod/forum/discuss.php?d=630243:
+
+> Plagiarism is defined as the use of another person’s work as if one’s own without due acknowledgement.
+
+We searched online and found many useful functions that can help us in developing our codes, we would like to acknowledge them:
+
+
+
+The credits are also included in the codes.
