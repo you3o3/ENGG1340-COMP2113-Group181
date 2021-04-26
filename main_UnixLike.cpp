@@ -72,7 +72,7 @@ void Introduction(int section){
 	if(section == 1){
     clrscr();
     printBar("INTRODUCTION");
-		string Story = "Many places are surrounded by a transparent wall that prevent people who are not good enough from entering, *and block monsters who are too strong from harming people. *Legend says that The Wall is a magic casted by the Almighty Mage Kinn at the end of his life, *but no one knows how long would it lasts for. *The Wall prevents people from entering the dangerous area and block monsters, *but still, there are places that are not being protected. *Adventurers, the best of all, protect weak traders travelling around the globe and fight monsters to obtain loot. *Over the years, many become brave warriors, enduring hardships and dangers. *Some become loyal knights, guarding the weak and the poor. *Some become wise sorcerers, mastering magics and knowledge. *And now... in the City of Quart, a novice adventurer is creating history";
+		string Story = "Many places are surrounded by a transparent wall that prevent people who are not good enough from entering,*and block monsters who are too strong from harming people.*Legend says that The Wall is a magic casted by the Almighty Mage Kinn at the end of his life, *but no one knows how long would it lasts for.*The Wall prevents people from entering the dangerous area and block monsters,*but still, there are places that are not being protected.*Adventurers, the best of all, protect weak traders travelling around the globe and fight monsters to obtain loot.*Over the years, many become brave warriors, enduring hardships and dangers.*Some become loyal knights, guarding the weak and the poor.*Some become wise sorcerers, mastering magics and knowledge.*And now... in the City of Quart, a novice adventurer is creating history";
 		printDelay(Story,40,false);
 		for(int i = 0; i < 3; i++){
 			cout << '.';
@@ -108,9 +108,11 @@ character loadSave(){
   fin >> p.def;
   fin >> p.crit_chance;
   fin >> p.traitpoints;
-  fin >> p.traitAllowcation[0];
-  fin >> p.traitAllowcation[1];
-  fin >> p.traitAllowcation[2];
+  fin >> p.traitAllocation[0];
+  fin >> p.traitAllocation[1];
+  fin >> p.traitAllocation[2];
+  fin >> p.traitAllocation[3];
+  fin >> p.traitAllocation[4];
   fin.close();
 
   return p;
@@ -136,7 +138,7 @@ void saveFile(){
   fout << player.def << " ";
   fout << player.crit_chance << " ";
   fout << player.traitpoints << " ";
-  fout << player.traitAllowcation[0] << " " << player.traitAllowcation[1] << " " << player.traitAllowcation[2];
+  fout << player.traitAllocation[0] << " " << player.traitAllocation[1] << " " << player.traitAllocation[2] << " " << player.traitAllocation[3] << " " << player.traitAllocation[4];
   fout.close();
 }
 
@@ -194,10 +196,10 @@ void Battle(int zone){
 				printDelay("You attacked as hard as you can.", 40 , true);
 				if(randomNumber(0,100) > 10){
 					roundDamage = player.att + tempAttackBoost;
-					if(randomNumber(0,100) <= player.crit_chance){
+					if(randomNumber(1,100) <= player.crit_chance){
 						color.set("red");
 						printDelay("Critical Hit!", 40, true);
-						roundDamage *= 1.5;
+						roundDamage = roundDamage * 1.5;
 						color.set("green");
 					}
 					if(randomNumber(0,1) == 0){
@@ -231,7 +233,7 @@ void Battle(int zone){
 						break;
 					}
 					case 1:{
-						if(player.maxhp/5 < player.mp){
+						if(player.maxhp/5 <= player.mp){
 							printDelay("You used your mana to recover yourself!", 40 ,true);
 							player.hp += player.maxhp/2;
 							player.mp -= player.maxhp/2;
@@ -273,10 +275,14 @@ void Battle(int zone){
 					} else {
 						roundDamage += randomNumber(1,mob->att*0.2);
 					}
-					printDelay("The monster inflicted " + to_string(roundDamage) + " damage to you!", 40 ,true);
-					player.hp -= roundDamage;
-          delay(1000);
-					break;
+					if(randomNumber(1,100) > (5 + 3*player.traitAllocation[4])){
+						printDelay("The monster inflicted " + to_string(roundDamage) + " damage to you!", 40 ,true);
+						player.hp -= roundDamage;
+		  				delay(1000);
+					} else {
+						printDelay("You dodged the monster's attack!", 40, true);
+				        }
+				        break;
 				}
 				case 1:{
 					color.set("red");
@@ -365,7 +371,7 @@ int OptionsInRegion(){
     "Check my status",
     "Save game",
     "Exit game",
-    "Allowcation of Trait Points"
+    "Allocation of Trait Points"
   };
   int x = 0, y = 0, to_return = 0;
   getxy(&y, &x);
@@ -498,7 +504,7 @@ void Region(){
       //3: Move on (during an adventure)
       case 3:{
         color.set("red");
-        printDelay("You encounter a monster!", 40, true);
+        printDelay("You encountered a monster!", 40, true);
         delay(1000);
         for (int i = 0; i < 7; i++){
           if (regions[i] == player.position){
@@ -536,14 +542,17 @@ void Region(){
         break;
       }
       
-      //8: Allowcation of trait points
+      //8: Allocation of trait points
       case 8:{
       	int x = 0, y = 0;
       	bool cont = true;
-      	char options[5][40] = {
+      	char selections[2][40] = {"Yes", "No"};
+      	char options[7][40] = {
       	    "Add 1 point to HP",
       	    "Add 1 point to Attack",
       	    "Add 1 point to MP",
+      	    "Add 1 point to Critical Hit Chance",
+      	    "Add 1 point to Evasion Chance",
       	    "Finish"
       	};
       	while(cont){
@@ -551,19 +560,37 @@ void Region(){
       		printBar("Traits");
       		cout << "Name: " << player.name << "   Unspent trait points:" << player.traitpoints << endl;
       		cout << "Current Level: " << player.level << endl;
-      		cout << "Trait points allocation : HP " << player.traitAllowcation[0] << ", Attack " << player.traitAllowcation[1] << ", MP " << player.traitAllowcation[2] << endl;
-      		cout << "Current stat increases: HP: x" << pow(1.235,player.traitAllowcation[0]) << endl;
-      		cout << "                    Attack: x" << pow(1.17,player.traitAllowcation[1]) << endl;
-      		cout << "                        MP: x" << pow(1.205,player.traitAllowcation[2]) << endl;
+      		cout << "Trait points allocation : HP " << player.traitAllocation[0] << ", Attack " << player.traitAllocation[1] << ", MP " << player.traitAllocation[2] << ", Crit Chance " << player.traitAllocation[3] << ", Evasion " << player.traitAllocation[4] << endl;
+      		cout << "Current stat increases: HP: x" << pow(1.235,player.traitAllocation[0]) << endl;
+      		cout << "                    Attack: x" << pow(1.17,player.traitAllocation[1]) << endl;
+      		cout << "                        MP: x" << pow(1.205,player.traitAllocation[2]) << endl;
+      		cout << "               Crit Chance: x" << 5+ 4*player.traitAllocation[3] << "%" << endl;
+      		cout << "            Evasion Chacne: x" << 5+ 3*player.traitAllocation[4] << "%" << endl;
+      		color.set("red");
+      		cout << "Attention. All changes made here cannot be reversed. Choose wisely." << endl;
+      		color.set("green");
         	getxy(&y, &x);
-      	 	switch(select(options,0,4,y-1)){
+      	 	switch(select(options,0,6,y-1)){
       	 	 case 0:{
       	 	 	if(player.traitpoints <=0){
       	 	 		printDelay("You do not have enough trait points!", 30, true);
       	 	 	} else {
-      	 	 		player.traitAllowcation[0]++;
-      	 	 		player.traitpoints--;
-      	 	 		printDelay("One point has been allowcated to HP.", 30, true);
+      	 	 		cout << "One point will be allocated to HP and your boost will increase to x" << pow(1.235,player.traitAllocation[0]+1) << endl << "Are you sure?" << endl;
+      	 	 		getxy(&y, &x);
+      	 			switch(select(selections,0,2,y-1)){
+      	 				case 0:{
+      	 					player.traitAllocation[0]++;
+      	 	 				player.traitpoints--;
+      	 	 				printDelay("One point has been allocated to HP.", 30, true);
+      	 	 				player.traitSet(0);
+      	 	 				break;
+      	 				
+      	 				}
+      	 				case 1:{
+      	 					printDelay("No change was made to the traits!", 30, true);
+      	 					break;
+      	 				}
+      	 			}
       	 	 	}
       	 	 	break;
       	 	 }
@@ -571,9 +598,22 @@ void Region(){
       	 	       if(player.traitpoints <=0){
       	 	 		printDelay("You do not have enough trait points!", 30, true);
       	 	 	} else {
-      	 	 		player.traitAllowcation[1]++;
-      	 	 		player.traitpoints--;
-      	 	 		printDelay("One point has been allowcated to Attack.", 30, true);
+      	 	 		cout << "One point will be allocated to Attack and your boost will increase to x" << pow(1.17,player.traitAllocation[1]+1) << endl << "Are you sure?" << endl;
+      	 	 		getxy(&y, &x);
+      	 			switch(select(selections,0,2,y-1)){
+      	 				case 0:{
+      	 					player.traitAllocation[1]++;
+      	 	 				player.traitpoints--;
+      	 	 				printDelay("One point has been allocated to Attack.", 30, true);
+      	 	 				player.traitSet(1);
+      	 	 				break;
+      	 				
+      	 				}
+      	 				case 1:{
+      	 					printDelay("No change was made to the traits!", 30, true);
+      	 					break;
+      	 				}
+      	 			}
       	 	 	}
       	 	 	break;
       	 	 }
@@ -581,13 +621,71 @@ void Region(){
 			if(player.traitpoints <=0){
       	 	 		printDelay("You do not have enough trait points!", 30, true);
       	 	 	} else {
-      	 	 		player.traitAllowcation[2]++;
-      	 	 		player.traitpoints--;
-      	 	 		printDelay("One point has been allowcated to MP.", 30, true);
+      	 	 		cout << "One point will be allocated to MP and your boost will increase to x" << pow(1.205,player.traitAllocation[2]+1) << endl << "Are you sure?" << endl;
+      	 	 		getxy(&y, &x);
+      	 			switch(select(selections,0,2,y-1)){
+      	 				case 0:{
+      	 					player.traitAllocation[2]++;
+      	 	 				player.traitpoints--;
+      	 	 				printDelay("One point has been allocated to MP.", 30, true);
+      	 	 				player.traitSet(2);
+      	 	 				break;
+      	 				
+      	 				}
+      	 				case 1:{
+      	 					printDelay("No change was made to the traits!", 30, true);
+      	 					break;
+      	 				}
+      	 			}
       	 	 	}
-      	 	 	break; 
+      	 	 	break;
       	 	 }
       	 	 case 3:{
+			if(player.traitpoints <=0){
+      	 	 		printDelay("You do not have enough trait points!", 30, true);
+      	 	 	} else {
+      	 	 		cout << "One point will be allocated to Crit Chance and your chacne will be " << 5+4*(player.traitAllocation[3]+1) << "%" << endl << "Are you sure?" << endl;
+      	 	 		getxy(&y, &x);
+      	 			switch(select(selections,0,2,y-1)){
+      	 				case 0:{
+      	 					player.traitAllocation[3]++;
+      	 	 				player.traitpoints--;
+      	 	 				printDelay("One point has been allocated to Crit Chance.", 30, true);
+      	 	 				player.traitSet(3);
+      	 	 				break;
+      	 				
+      	 				}
+      	 				case 1:{
+      	 					printDelay("No change was made to the traits!", 30, true);
+      	 					break;
+      	 				}
+      	 			}
+      	 	 	}
+      	 	 	break;
+      	 	 }
+      	 	 case 4:{
+			if(player.traitpoints <=0){
+      	 	 		printDelay("You do not have enough trait points!", 30, true);
+      	 	 	} else {
+      	 	 		cout << "One point will be allocated to Evasion and your chance will be " << 5+3*(player.traitAllocation[4]+1) << "%" << endl << "Are you sure?" << endl;
+      	 	 		getxy(&y, &x);
+      	 			switch(select(selections,0,2,y-1)){
+      	 				case 0:{
+      	 					player.traitAllocation[4]++;
+      	 	 				player.traitpoints--;
+      	 	 				printDelay("One point has been allocated to Evasion.", 30, true);
+      	 	 				break;
+      	 				
+      	 				}
+      	 				case 1:{
+      	 					printDelay("No change was made to the traits!", 30, true);
+      	 					break;
+      	 				}
+      	 			}
+      	 	 	}
+      	 	 	break;
+      	 	 }
+      	 	 case 5:{
       	 	 	printDelay("Leaving the trait menu....",40, true);
       	 	 	cont = false;
       	 	 	break;
