@@ -6,7 +6,7 @@
 - Tseung Kai Fai (3035787085)
 
 ## Description
-MONSTER SLAYER is an endless fight and survive turn-based role-playing game (RPG). User plays the role of a novice adventurer, explore different areas and fight with monsters.
+"Novice Adventurer - Road to the Abyss" is an endless fight and survive turn-based role-playing game (RPG). User plays the role of a novice adventurer, explore different areas and fight with monsters.
 
 ## Game rules
 Fight with evil monsters and survive!
@@ -29,12 +29,13 @@ Fight with evil monsters and survive!
    - Player
      -	Basic information (name, gender)
      -	Normal status (hp, mp, att, def, crit, etc.)
-     -	Exp system (level, exp, required exp)     
-     -	Trait system (every 5 level gain a trait point and can be used in strengthening status)
+     -	Xp system (level, xp, required xp)     
+     -	Trait system (every 5 levels gain a trait point and can be used in strengthening status)
    - Monsters
      -	Basic information (name, gender)
      -	Normal status (hp, mp, att, def, crit, etc.)
-5. Explore module
+     -	Extra information (xp drop)
+5. Region module
    -	Require minimum level to unlock different regions
    -	Player can choose which region to enter
    -	Different regions with different monsters having different level and status
@@ -47,16 +48,17 @@ Fight with evil monsters and survive!
 ## How do the coding elements get involved?
 
 1. Generation of random game sets or events
-   - using rand() and set the seed to be TIME, 'random' monsters with random stats will be spawned
-   - critical attacks determined by rand(), checking whether the result falls between a specific zone
+   - `randomNumber()` in `usefulF.cpp` using `rand()` and `srand(time(NULL))` to generate a random number between 2 integers
+   - `randomNumber()` is heavily used in `monsterCreation()` in `creature.cpp` to spawn 'random' monsters with random stats
+   - critical attacks, and successful evasion determined by using `randomNumber()`, checking whether the result falls between a specific zone
 2. Data structures for storing game status
-   - A class storing all status of the character
-   - A class storing all obtainable loots and weapons
+   - A struct storing all status of the character
+   - A struct storing all status of the monsters
 3. Dynamic memory management
-   - Using dynamic memory management to load regions and monster stats.
-   - avoid high usage of memory
+   - Using dynamic memory management to store monster status (See `Battle()` in `main_UnixLike.cpp`)
+   - Monster status would be immediately deleted after battle finish avoid high usage of memory
 4. File input/output
-   - reading and saving player stats using fopen() and fprintf() and fclose(), saving the file in .dat format
+   - reading and saving player stats using ifstream and ofstream, saving the file in .sav format
 5. Program codes in multiple files
    - separating codes of different parts and combining them using “Makefile”
    - custom header files linking all parts
@@ -65,7 +67,8 @@ Fight with evil monsters and survive!
 
 1. Download all files into your computer
 2. Open your computer's terminal, and go to the directory where the files are stored
-3. Type "make main_UnixLike" and "./main_UnixLike" to run the program
+3. Enter "make main_UnixLike"
+4. Enter "./main_UnixLike" to run the program
 
 ## List of non-standard C/C++ libraries
 
@@ -77,5 +80,11 @@ Fight with evil monsters and survive!
    1. used in `getxy()` and `getch()` in file `usefulF.cpp`
    - `getxy()` is used to get the current position of the cursor
    - both serve for creating a selection table, `getxy()`
-   2. 
 
+## Testing
+
+According to requirements:
+
+> You should make sure your code can be successfully compiled in the Computer Science department's `academy11` server or the `academy21` server. Please indicate which of the two servers you have used for testing in your project documentation.
+
+We tested our code and it successfully compiled on the `academy21` server.
