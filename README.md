@@ -6,57 +6,48 @@
 - Tseung Kai Fai (3035787085)
 
 ## Description
-We want to implement a turn-based role-playing game (RPG). A RPG is a game that users play the roles of the characters. The game we plan to create will be an adventure type game, i.e. the main character will explore different areas and fight with monsters.
+MONSTER SLAYER is an endless fight and survive turn-based role-playing game (RPG). User plays the role of a novice adventurer, explore different areas and fight with monsters.
 
 ## Game rules
 Fight with evil monsters and survive!
 
 1. It is a turn-based game, which means in a battle, player and monster would take turn to action.
-2. Player can choose to attack, defend, use skills, use potions, or escape. Same as monsters (which would be controlled by computer).
+2. Player can choose to attack, use mana skills, or escape. Similar to monsters (but without escape option) (which would be controlled by computer).
 3. There are two ways of ending a battle, one is escape and another one is the HP of one side falls below (or equal to) 0, i.e. died.
 4. When one side escape or died, the other side is considered the winner of the battle.
 5. If the player wins, he/she would be awarded with exp.
-6. If the player kills the monster, he/she would have the chance to receive item awards.
-7. After reaching the required exp, the player would level up. The status would increase.
-8. Player could equip weapons to boost their status.
-9. The game ends when the HP of the player falls below (or equal to) 0, i.e. died.
-
+6. After reaching the required exp, the player would level up. The status would increase.
+7. After reaching specific levels, the player would be awarded with a trait point.
+8. He/she can use trait points to enhance their status.
+9. When the HP of the player falls below (or equal to) 0, i.e. died, he/she would be retrieved but he/she would lose all xp.
 
 ## Features
-1. Guide module: how to play?
-2. Save/load module
-3. Background story
-4. Player creation
-5. Status module
+1. Background story
+2. Player creation
+3. Save/load module
+4. Status module
    - Player
      -	Basic information (name, gender)
-     -	Normal status (hp, mp, att, def, skills, etc.)
+     -	Normal status (hp, mp, att, def, crit, etc.)
      -	Exp system (level, exp, required exp)     
-     -	Job system (warrior, knight, mage, etc.) (we plan to implement 2 jobs first, if time allows, we will add more)
-     -	Weapons (sword, magic wand, etc.) (with different stats and drop rates)
-     -	Extra attributes (physical/magic resist, etc.) (if time allows, we will add more)
+     -	Trait system (every 5 level gain a trait point and can be used in strengthening status)
    - Monsters
      -	Basic information (name, gender)
-     -	Normal status (hp, mp, att, def, skills, etc.)
-     -	Extra attributes (physical/magic resist, etc.)
-6. Explore module
+     -	Normal status (hp, mp, att, def, crit, etc.)
+5. Explore module
    -	Require minimum level to unlock different regions
    -	Player can choose which region to enter
    -	Different regions with different monsters having different level and status
    -	Monsters having random level and status, but bounded by limits
-   -	Chance to encounter elite monsters
-   -	Boss
-7. Battle module
-   -	Actions to choose (attack, defend, skills, potions, escape)
-   -	Randomness (e.g. attack damage varies within certain range)
-   -	Buffs/ debuffs
-   -	Winning award (exp, items)
-   -	Optional: Support for sound effect (inplementation of SDL2)
+6. Battle module
+   -	Actions to choose (attack, mana skills, escape)
+   -	Randomness (e.g. critical attack)
+   -	Winning award (xp)
 
 ## How do the coding elements get involved?
 
 1. Generation of random game sets or events
-   - using rand() and set the seed to be TIME, 'random' monsters with predefined stats and difficulties will be spawned
+   - using rand() and set the seed to be TIME, 'random' monsters with random stats will be spawned
    - critical attacks determined by rand(), checking whether the result falls between a specific zone
 2. Data structures for storing game status
    - A class storing all status of the character
@@ -69,3 +60,22 @@ Fight with evil monsters and survive!
 5. Program codes in multiple files
    - separating codes of different parts and combining them using “Makefile”
    - custom header files linking all parts
+
+## Compilation and execution instructions
+
+1. Download all files into your computer
+2. Open your computer's terminal, and go to the directory where the files are stored
+3. Type "make main_UnixLike" and "./main_UnixLike" to run the program
+
+## List of non-standard C/C++ libraries
+
+1. unistd.h
+   1. used in `getch()` in file `usefulF.cpp`
+   - `getch()` is used to mimic the effect of `getch()`in header `conio.h` (unable to use in CS server), which is to read a single character from the keyboard
+   - serve for creating a selection table, when user press the arrow button on the kwyboard, `getch()` can detect what key is pressed
+2. termios.h
+   1. used in `getxy()` and `getch()` in file `usefulF.cpp`
+   - `getxy()` is used to get the current position of the cursor
+   - both serve for creating a selection table, `getxy()`
+   2. 
+
