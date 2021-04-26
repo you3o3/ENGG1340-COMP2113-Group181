@@ -1,8 +1,6 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include <vector>
-
 struct generalStats {
     std::string name;
     int level;
@@ -18,8 +16,6 @@ struct generalStats {
 struct character: public generalStats {
     bool gender;
     int xp, xpReq;
-    std::string role;
-    std::vector < Weapon > weapons; // weapon struct in weapon.h and weapon.cpp
     int skills[100];
     std::string position;
     character(std::string nameInputed = "", bool genderInputed = true);
