@@ -1,6 +1,8 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
+#include <string>
+
 struct generalStats {
     std::string name;
     int level;
