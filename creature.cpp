@@ -107,9 +107,11 @@ character::character(string nameInputed, bool genderInputed){
   crit_chance = 5;
   position = "City of Quart";
   traitpoints = 1;
-  traitAllowcation[0] = 0;
-  traitAllowcation[1] = 0;
-  traitAllowcation[2] = 0;
+  traitAllocation[0] = 0;
+  traitAllocation[1] = 0;
+  traitAllocation[2] = 0;
+  traitAllocation[3] = 0;
+  traitAllocation[4] = 0;
   // role, skill, tbc
 }
 
@@ -125,7 +127,7 @@ void character::lvUp(){
   //status increase
   maxhp += level * 3;
   maxmp += level * 2;
-  att = level * 10 + 3;
+  att = (level * 10 + 3) * pow(1.17,traitAllocation[1]);
   def = level * 7;
 
 }
@@ -133,13 +135,15 @@ void character::lvUp(){
 //Add traits
 void character::traitSet(int option){
 	if(option == 0){
-	 maxhp = maxhp * pow(1.235,traitAllowcation[0]);
+	 maxhp = maxhp * pow(1.235,traitAllocation[0]);
 	 hp = maxhp;
 	} else if (option == 1) {
-	 att = att * pow(1.17,traitAllowcation[1]);
+	 att = att * pow(1.17,traitAllocation[1]);
 	} else if (option == 2){
-	 maxmp = maxmp * pow(1.205, traitAllowcation[2]);
+	 maxmp = maxmp * pow(1.205, traitAllocation[2]);
 	 mp = maxmp;
+	} else if (option == 3) {
+	 crit_chance = 5 + 4*traitAllocation[3];
 	}
 }
 
