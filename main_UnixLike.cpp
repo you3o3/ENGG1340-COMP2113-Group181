@@ -45,7 +45,7 @@ inline bool save_exist(const string & save) {
     }
 }
 
-//basic character creation
+//basic character creation, no input, no output, directly write to the struct.
 character characterCreation() {
     string name;
     FILE * save = fopen("save.sav", "rw");
@@ -81,7 +81,7 @@ character characterCreation() {
 
 }
 
-//printing specific plots based on the section
+//printing specific plots based on the section, inputs are the story section, no returned output
 void Introduction(int section) {
     clrscr();
     printBar("INTRODUCTION");
@@ -128,7 +128,8 @@ void Introduction(int section) {
 void initialization() {
 
 }
-//load file from user and recover state based on the info in file
+
+//load file from user and recover state based on the info in file, no input no returned output, directly write to the struct.
 character loadSave() {
     character p;
     //TODO: load file and save status into player, note that player can't save other status like monsters, and save file during battle is prohibited
@@ -206,7 +207,7 @@ void Guide() {
 }
 
 //------------------------------------------------------------------------------------------------------
-// the following should be made inside a file called battle.cpp and battle.h
+// the main battle program. input is the current zone. no returned output.
 void Battle(int zone) {
     monster * mob = new monster;
     * mob = monsterCreation(zone);
@@ -373,7 +374,7 @@ void Battle(int zone) {
 }
 
 //------------------------------------------------------------------------------------------------------
-// the following should be made inside a file called region.cpp and region.h
+//options available during adventure, no input no returned output.
 void Adventure_option() {
     clrscr();
 
@@ -408,7 +409,7 @@ void Adventure_option() {
         regionFlag[pos] = true;
     }
 }
-
+//avaliable options in region. no input, return integer value of the selected option.
 int OptionsInRegion() {
     clrscr();
     printBar(player.position);
@@ -436,6 +437,7 @@ int OptionsInRegion() {
     return to_return + 2;
 }
 
+//options avaliable in the city, no input, return integer value of the selected option
 int OptionsInCity() {
     clrscr();
     printBar("City of Quart");
@@ -460,6 +462,7 @@ int OptionsInCity() {
     }
 }
 
+//showing the current status of the player, no input, no returned output
 void show_player_status() {
     clrscr();
     color.set("yellow");
@@ -482,6 +485,7 @@ void show_player_status() {
     getch();
 }
 
+//show region options. no input no returned output.
 void Region() {
     /*note: what options represent
     0: NULL
@@ -768,7 +772,7 @@ void Region() {
 }
 //------------------------------------------------------------------------------------------------------
 
-//menu of the game
+//menu of the game, no input no returned output
 void Menu() {
     //TODO: if save file exists ask if player want to load the files
     //if not, create character using characterCreation()
