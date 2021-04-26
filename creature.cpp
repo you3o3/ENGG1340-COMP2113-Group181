@@ -18,6 +18,7 @@ bool generalStats::isAlive() {
     return hp > 0;
 }
 
+//stored region names
 char regions[8][40] = {
     "Adventurers' valley (lv1+)",
     "Slient forest (lv11+)",
@@ -28,6 +29,7 @@ char regions[8][40] = {
     "Abyss (requirement?\?\?)"
 };
 
+//flags to see if players went there before
 bool regionFlag[8] = {
     false,
     false,
@@ -38,6 +40,7 @@ bool regionFlag[8] = {
     false
 };
 
+//stored monster names
 char regionMonsters[6][10][40] = {
     {
         "Green Slime",
