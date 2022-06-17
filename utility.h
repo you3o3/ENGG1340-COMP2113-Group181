@@ -1,5 +1,7 @@
-#ifndef USEFULF_H
-#define USEFULF_H
+#ifndef UTILITY_H
+#define UTILITY_H
+
+#include <string>
 
 // input: none
 // output: none

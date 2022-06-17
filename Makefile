@@ -5,7 +5,7 @@ FLAGS = -pedantic-errors -std=c++11
 color.o: color.cpp color.h
 	g++ $(FLAGS) -c $<
 
-usefulF.o: usefulF.cpp usefulF.h
+utility.o: utility.cpp utility.h
 	g++ $(FLAGS) -c $<
 
 creature.o: creature.cpp creature.h
@@ -14,5 +14,5 @@ creature.o: creature.cpp creature.h
 main_UnixLike.o: main_UnixLike.cpp
 	g++ $(FLAGS) -c $<
 
-main_UnixLike: color.o creature.o usefulF.o main_UnixLike.o
+main_UnixLike: color.o creature.o utility.o main_UnixLike.o
 	g++ $(FLAGS) $^ -o $@

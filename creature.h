@@ -15,7 +15,7 @@ struct generalStats {
     bool isAlive();
 };
 
-struct character: public generalStats {
+struct character : public generalStats {
     bool gender;
     int xp, xpReq;
     int skills[100];
@@ -26,10 +26,9 @@ struct character: public generalStats {
     void traitSet(int);
     int traitpoints;
     int traitAllocation[5];
-
 };
 
-struct monster: public generalStats {
+struct monster : public generalStats {
     std::string itemdrop;
     int expDrop;
 };
@@ -41,4 +40,5 @@ extern character player;
 extern char regionMonsters[6][10][40];
 extern char regions[8][40];
 extern bool regionFlag[8];
+
 #endif

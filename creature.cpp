@@ -1,123 +1,42 @@
 #include "creature.h"
-
-#include "usefulF.h"
-
-#include <iostream>
-
-#include <cstdlib>
-
-#include <ctime>
-
-#include <string>
+#include "utility.h"
 
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
-bool generalStats::isAlive() {
-    return hp > 0;
-}
+bool generalStats::isAlive() { return hp > 0; }
 
 //stored region names
-char regions[8][40] = {
-    "Adventurers' valley (lv1+)",
-    "Slient forest (lv11+)",
-    "Cemetery of the dark (lv21+)",
-    "Forsaken castle (lv31+)",
-    "Other side of the world (lv41+)",
-    "Nest of dragons (lv51+)",
-    "Abyss (requirement?\?\?)"
-};
+char regions[8][40] = {"Adventurers' valley (lv1+)", "Slient forest (lv11+)",
+    "Cemetery of the dark (lv21+)", "Forsaken castle (lv31+)", "Other side of the world (lv41+)",
+    "Nest of dragons (lv51+)", "Abyss (requirement?\?\?)"};
 
 //flags to see if players went there before
-bool regionFlag[8] = {
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-};
+bool regionFlag[8] = {false, false, false, false, false, false, false};
 
 //stored monster names
 char regionMonsters[6][10][40] = {
-    {
-        "Green Slime",
-        "Mini Slime",
-        "Corrupted Slime",
-        "Sparky",
-        "Water trappers",
-        "Giant Mantis",
-        "Shroomitail",
-        "Glittering Slime",
-        "Boulder",
-        "Frosted"
-    },
-    {
-        "Screammaker",
-        "Greedy Goblin",
-        "Mangled Ogre",
-        "Reaper",
-        "Haunted",
-        "Trapped Soul",
-        "Glowing Spores",
-        "Entangled Vines",
-        "Goblin Leader",
-        "Ogre Commander"
-    },
-    {
-        "Brain Rot",
-        "Headless",
-        "Bloodthrist",
-        "Armored Zombie",
-        "Son of the Tempest",
-        "Mimic",
-        "Ravenger",
-        "Hanged",
-        "Suffocater",
-        "Aetherized Zombie"
-    },
-    {
-        "Witch Apprentice",
-        "Evitch",
-        "Spider Puppet",
-        "Hellhound",
-        "Wicked",
-        "Witchcraft Master",
-        "Salem",
-        "Frankenpuppet",
-        "Headslicer",
-        "Raven"
-    },
-    {
-        "Merezeda",
-        "Mazerguito",
-        "Dripper",
-        "Vampire",
-        "Haemoclotter",
-        "Father of all",
-        "Dracula",
-        "Spike",
-        "Amber",
-        "Dream Maker"
-    },
-    {
-        "Rathalos",
-        "Tempest",
-        "Valhazaard",
-        "Behemoth",
-        "Raijin",
-        "Fieryostra",
-        "Hellstrix",
-        "Dragon Rider",
-        "Alflection",
-        "Ruler"
-    }
-};
+    {"Green Slime", "Mini Slime", "Corrupted Slime", "Sparky", "Water trappers", "Giant Mantis",
+        "Shroomitail", "Glittering Slime", "Boulder", "Frosted"},
+    {"Screammaker", "Greedy Goblin", "Mangled Ogre", "Reaper", "Haunted", "Trapped Soul",
+        "Glowing Spores", "Entangled Vines", "Goblin Leader", "Ogre Commander"},
+    {"Brain Rot", "Headless", "Bloodthrist", "Armored Zombie", "Son of the Tempest", "Mimic",
+        "Ravenger", "Hanged", "Suffocater", "Aetherized Zombie"},
+    {"Witch Apprentice", "Evitch", "Spider Puppet", "Hellhound", "Wicked", "Witchcraft Master",
+        "Salem", "Frankenpuppet", "Headslicer", "Raven"},
+    {"Merezeda", "Mazerguito", "Dripper", "Vampire", "Haemoclotter", "Father of all", "Dracula",
+        "Spike", "Amber", "Dream Maker"},
+    {"Rathalos", "Tempest", "Valhazaard", "Behemoth", "Raijin", "Fieryostra", "Hellstrix",
+        "Dragon Rider", "Alflection", "Ruler"}};
 
 //constructor of character
-character::character(string nameInputed, bool genderInputed) {
+character::character(string nameInputed, bool genderInputed)
+{
     name = nameInputed;
     gender = genderInputed;
     level = 1;
@@ -141,7 +60,8 @@ character::character(string nameInputed, bool genderInputed) {
 }
 
 //level up
-void character::lvUp() {
+void character::lvUp()
+{
     xp -= xpReq;
     level += 1;
     if (level % 5 == 0) {
@@ -154,11 +74,11 @@ void character::lvUp() {
     maxmp += level * 2;
     att = (level * 10 + 3) * pow(1.17, traitAllocation[1]);
     def = level * 7;
-
 }
 
 //Add traits
-void character::traitSet(int option) {
+void character::traitSet(int option)
+{
     if (option == 0) {
         if (traitAllocation[0] != 1) {
             maxhp = maxhp / pow(1.235, traitAllocation[0] - 1) * pow(1.235, traitAllocation[0]);
@@ -185,7 +105,8 @@ void character::traitSet(int option) {
 }
 
 //increase exp
-void character::xpUp(int xpGain) {
+void character::xpUp(int xpGain)
+{
     xp += xpGain;
     bool is_lvUp = false;
     while (xp >= xpReq) {
@@ -202,7 +123,8 @@ void character::xpUp(int xpGain) {
     }
 }
 
-monster monsterCreation(int regionGrade) {
+monster monsterCreation(int regionGrade)
+{
     monster newMob;
     int n = randomNumber(0, 9);
     newMob.name = regionMonsters[regionGrade][n];
@@ -217,7 +139,8 @@ monster monsterCreation(int regionGrade) {
     } else {
         newMob.expDrop = randomNumber(1, 3) * regionGrade * 100 + player.xpReq * 0.5;
         newMob.level = player.level + randomNumber(-2, 2);
-        if (newMob.level <= 0) newMob.level = 1;
+        if (newMob.level <= 0)
+            newMob.level = 1;
     }
     //newMob.expDrop = 1000000;
     //mimic player status at the same level
@@ -230,7 +153,8 @@ monster monsterCreation(int regionGrade) {
     //adjustment
     newMob.hp = newMob.hp * randomNumber(10, 20) / 10 + regionGrade * randomNumber(10, 40);
     newMob.maxhp = newMob.hp;
-    newMob.att = newMob.att * 0.9 + (regionGrade + 1) * 2 + randomNumber(-5, +5) * (regionGrade + 1);
+    newMob.att =
+        newMob.att * 0.9 + (regionGrade + 1) * 2 + randomNumber(-5, +5) * (regionGrade + 1);
     newMob.crit_chance = 5 + randomNumber(-3, 3);
     newMob.def = (regionGrade + 1) * 8;
     return newMob;

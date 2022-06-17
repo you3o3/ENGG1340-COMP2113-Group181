@@ -1,10 +1,9 @@
-
 #ifndef COLOR_H
 #define COLOR_H
+
 #include <string>
 
 /*
-
 
 *REMINDER*: the following method make use of ANSI escape codes
             and hence is suggested to be operated in Unix-like system
@@ -66,33 +65,29 @@ Example: (all output are "text")
   cout << "text" << endl;                                               // frontground: default, background: default
   cout << color.setphrase("text", "white") << endl;                     // frontground: white, background: default
 
-
 */
 
-class Color{
+class Color {
 public:
+    // input: color, attribute
+    // output: ANSI escape codes of that color and brightness
+    void set(std::string c, std::string special = "normal");
 
-  // input: color, attribute
-  // output: ANSI escape codes of that color and brightness
-  void set(std::string c, std::string special = "normal");
+    // reset all changes made
+    void reset();
 
-  // reset all changes made
-  void reset();
-
-  // return a string that color/background is/are changed, after that reset all
-  std::string setphrase(std::string s, std::string c = "normal", std::string brightness = "normal", std::string backcolor = "normal");
-
+    // return a string that color/background is/are changed, after that reset all
+    std::string setphrase(std::string s, std::string c = "normal",
+        std::string brightness = "normal", std::string backcolor = "normal");
 
 private:
+    // Full ANSI escape code for reset, partial ANSI escape codes for others
+    std::string rset = "\033[0m";
+    std::string normal = "\033[3";
+    std::string bright = "\033[9";
+    std::string bground = "\033[4";
 
-  // Full ANSI escape code for reset, partial ANSI escape codes for others
-  std::string rset    = "\033[0m";
-  std::string normal  = "\033[3";
-  std::string bright  = "\033[9";
-  std::string bground = "\033[4";
-
-  std::string generalcolor(std::string c);
-
+    std::string generalcolor(std::string c);
 };
 
 // with credit to https://stackoverflow.com/questions/10422034/when-to-use-extern-in-c
